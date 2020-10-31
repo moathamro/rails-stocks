@@ -17,7 +17,14 @@ def index(request):
 # symbol is the requested stock's symbol ('AAPL' for Apple)
 def single_stock(request, symbol):
 	data = stock_api.get_stock_info(symbol)
+	allStocks = Stock.objects.filter(top_rank__isnull=False).order_by('top_rank')
+	data["allStocks"] = allStocks
 	return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data})
+
+
+def single_stock_data(request, symbol):
+	data = stock_api.get_stock_info(symbol)
+	return JsonResponse({'data': data})
 
 
 def register(request):
@@ -49,3 +56,10 @@ def logout_view(request):
 def single_stock_historic(request, symbol):
 	data = stock_api.get_stock_historic_prices(symbol, time_range='1m')
 	return JsonResponse({'data': data})
+
+
+def single_stock_financials(request, symbol):
+	if request.is_ajax and request.method == "GET":
+		data = stock_api.get_stock_financials_report(symbol)
+	return JsonResponse({'data': data})
+
