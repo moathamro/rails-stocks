@@ -69,7 +69,7 @@
 			<dd class="col-sm-6 compare">{{ data.marketCap }}</dd>
 			<dd id="marketCap" class="col-sm-4 text-info d-none">{{ data.marketCap }}</dd>
 
-			<dt class="col-sm-6">Quarterly revenue</dt>
+			<dt class="col-sm-6">Quarterly ( Revenue / Loss )</dt>
 			<dd id="quarterlyRevenue" class="col-sm-6"></dd>
 		</dl>
 	</div>
@@ -115,7 +115,15 @@
 			url: "/financials/{{ data.symbol }}/",
 			success: function (result) {
 				data = result.data.financials[0];
-				document.getElementById("quarterlyRevenue").innerHTML = data.totalRevenue;
+				revenue = data.totalRevenue - data.costOfRevenue;
+				$("#quarterlyRevenue").text(revenue);
+
+				if(revenue > 0){
+					$("#quarterlyRevenue").addClass("text-success");
+				} else{
+					$("#quarterlyRevenue").addClass("text-danger");
+				}
+
 			}
 		});
 
