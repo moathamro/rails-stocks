@@ -1,12 +1,44 @@
-{% extends "base.html" %}
+	{% extends "base.html" %}
 
 {% block content %}
-<div class="col-md-12 text-left">
-		<h2 class="display-4">
-				{{ data.companyName }}
-				<small class="text-muted">({{ data.symbol }})</small>
-		</h2>
-</div>
+
+	<div class="container">
+		<div class="row">
+			<div class=" col-lg-6 col-md-12 text-left">
+				<h2 class="display-4">
+					{{ data.companyName }}
+					<small class="text-muted">({{ data.symbol }})</small>
+				</h2>
+			</div>
+			<div class="col-lg-6 text-right">
+				<form action='#' method='POST' style="display:inline-block">
+  					<input type="hidden" name="name" value="{{data.symbol}}}}">
+					<button class="text-right btn btn-outline-dark btn-lg" >add to my portfolio</button>
+				</form>
+				<a class="text-right btn btn-outline-danger btn-lg" href="
+
+					/add/{{ data.symbol }}/"
+
+				   role="button" style="display:inline-block">Favorite it</a>
+<!--				<form action='/add/{{ data.symbol }}/' method='POST' style="display:inline-block">-->
+<!--  					<input type="hidden" name="name" value="{{data.symbol}}}}">-->
+<!--					<button class="text-right btn btn-outline-danger btn-lg" >favorite it</button>-->
+<!--				</form>-->
+
+			</div>
+		</div>
+	</div>
+
+
+<!--<div class="col-md-12 text-left">-->
+<!--		<h2 class="display-4" style="display:inline-block">-->
+<!--				{{ data.companyName }}-->
+<!--				<small class="text-muted">({{ data.symbol }})</small>-->
+<!--		</h2>-->
+<!--				&nbsp;&nbsp;&nbsp;-->
+<!--	<button class="text-right btn btn-outline-dark btn-lg" style="display:inline-block" >add to my portfolio</button>-->
+
+<!--</div>-->
 
 <div class="col-md-12 text-left">
 		<p class="lead">{{ data.primaryExchange }}</p>
@@ -49,33 +81,40 @@
 
 			<dt class="col-sm-6">Market Cap</dt>
 			<dd class="col-sm-6">{{ data.marketCap }}</dd>
+
+			<dt class="col-sm-6">Currency</dt>
+			<dd class="col-sm-6">{{ data.currency }}</dd>
+
+			<dt class="col-sm-6">Issue Type</dt>
+			<dd class="col-sm-6">{{ data.issue }}</dd>
 		</dl>
 	</div>
 
 	<div class="pt-4 col-sm-6">
-		<canvas id="stockChart"></canvas>
-		<!-- WIP TAB DESIGN
+		<canvas id="changeChart"></canvas>
+		<canvas id="priceChart"></canvas>
+
+
 		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="pill" href="#1w" role="tab" aria-controls="pills-home" aria-selected="true">1W</a>
+			<a class="nav-link" id = "1d" href="../1d/"  role="tab" aria-controls="pills-home" aria-selected="true">1D</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link active" data-toggle="pill" href="#1m" role="tab" aria-controls="pills-profile" aria-selected="false">1M</a>
+			<a class="nav-link"  id="1m" href="../1m/" role="tab" aria-controls="pills-profile" aria-selected="false">1M</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="pill" href="#3m" role="tab" aria-controls="pills-contact" aria-selected="false">3M</a>
+			<a class="nav-link"  id="3m" href="../3m/" role="tab" aria-controls="pills-contact" aria-selected="false">3M</a>
 		  </li>
 			<li class="nav-item">
-			<a class="nav-link" data-toggle="pill" href="#6m" role="tab" aria-controls="pills-contact" aria-selected="false">6M</a>
+			<a class="nav-link"  id="6m" href="../6m/" role="tab" aria-controls="pills-contact" aria-selected="false">6M</a>
 		  </li>
 			<li class="nav-item">
-			<a class="nav-link" data-toggle="pill" href="#1y" role="tab" aria-controls="pills-contact" aria-selected="false">1Y</a>
+			<a class="nav-link"  id="1y" href="../1y/" role="tab" aria-controls="pills-contact" aria-selected="false">1Y</a>
 		  </li>
 			<li class="nav-item">
-			<a class="nav-link" data-toggle="pill" href="#max" role="tab" aria-controls="pills-contact" aria-selected="false">Max</a>
+			<a class="nav-link"  id="max" href="../max/" role="tab" aria-controls="pills-contact" aria-selected="false">Max</a>
 		  </li>
 		</ul>
-		-->
 	</div>
 </div>
 {% endblock %}
@@ -83,17 +122,46 @@
 {% block scripts %}
 <script>
 	$(document).ready(function(){
-		$.get( "/historic/{{ data.symbol }}/", function( data ) {
+		$.get( "/historic/{{ data.symbol }}/{{ time_range }}", function( data ) {
 			historic_data = data.data.sort(function(a, b) { return a.date - b.date; })
 
-			var ctxL = document.getElementById("stockChart").getContext('2d');
+
+			var ctxLl = document.getElementById("changeChart").getContext('2d');
+			var myLineChartt = new Chart(ctxLl, {
+				type: 'line',
+				data: {
+					labels: historic_data.map(d => d.label),
+					datasets: [
+						{
+							label: "{{ data.symbol }} (change over time)",
+							data: historic_data.map(d => d.changeOverTime),
+							backgroundColor: [
+								'rgba(105, 0, 132, .2)',
+							],
+							borderColor: [
+								'rgba(200, 99, 132, .7)',
+							],
+							borderWidth: 2
+						}
+					]
+				},
+				options: {
+					responsive: true
+				}
+			});
+
+
+
+
+
+			var ctxL = document.getElementById("priceChart").getContext('2d');
 			var myLineChart = new Chart(ctxL, {
 				type: 'line',
 				data: {
 					labels: historic_data.map(d => d.label),
 					datasets: [
 						{
-							label: "{{ data.symbol }}",
+							label: "{{ data.symbol }} (price over time)",
 							data: historic_data.map(d => d.close),
 							backgroundColor: [
 								'rgba(105, 0, 132, .2)',
