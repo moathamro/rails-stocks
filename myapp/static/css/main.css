@@ -38,3 +38,11 @@ body {
 .clickable-row {
     cursor: pointer;
 }
+
+.fav-icon{
+    visibility: visible;
+}
+
+.fav-icon:hover {
+    visibility: visible;
+}

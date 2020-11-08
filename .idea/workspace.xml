@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:khaw" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/khalidtest" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f59bc933-e93a-491f-a0a5-26667f805f1b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/myapp/static/css/search.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/static/js/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/management/commands/stock_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/management/commands/stock_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/stock_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/stock_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="6390db15-968c-47c9-9de5-3f060fac5c82" />
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/Rails.iml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/dbnavigator.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1iyQSl6O4ak4IeZQpT4K56v2W17" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Rails" type="Python.DjangoServer" factoryName="Django server">
+      <module name="Rails" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\qussa\AppData\Local\Programs\Python\Python38-32\python.exe" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f59bc933-e93a-491f-a0a5-26667f805f1b" name="Default Changelist" comment="" />
+      <created>1602872927366</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602872927366</updated>
+      <workItem from="1602877365679" duration="12158000" />
+      <workItem from="1602896865621" duration="35000" />
+      <workItem from="1602896930393" duration="110000" />
+      <workItem from="1602948196472" duration="19284000" />
+      <workItem from="1602984913580" duration="21000" />
+      <workItem from="1603050404049" duration="4204000" />
+      <workItem from="1603058897193" duration="2117000" />
+      <workItem from="1603130830702" duration="952000" />
+      <workItem from="1603288010290" duration="5916000" />
+      <workItem from="1603618722143" duration="1429000" />
+      <workItem from="1603621748815" duration="4106000" />
+      <workItem from="1603713861121" duration="2831000" />
+      <workItem from="1603796460481" duration="46166000" />
+      <workItem from="1603982469446" duration="24270000" />
+      <workItem from="1604141457723" duration="5835000" />
+      <workItem from="1604267570452" duration="2342000" />
+      <workItem from="1604346192008" duration="2827000" />
+      <workItem from="1604426012648" duration="940000" />
+      <workItem from="1604598032251" duration="3244000" />
+      <workItem from="1604693801095" duration="672000" />
+      <workItem from="1604709829945" duration="12000" />
+      <workItem from="1604744181246" duration="691000" />
+      <workItem from="1604746128098" duration="152000" />
+      <workItem from="1604749330334" duration="225000" />
+      <workItem from="1604753960594" duration="2559000" />
+      <workItem from="1604864908034" duration="2653000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/khalidtest" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="225" y="88" width="1086" height="727" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602960270282">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="225" y="88" width="1086" height="727" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960270282" />
+    <state x="227" y="132" width="1083" height="600" key="#com.intellij.featureStatistics.actions.ShowFeatureUsageStatisticsDialog" timestamp="1603809816020">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="227" y="132" width="1083" height="600" key="#com.intellij.featureStatistics.actions.ShowFeatureUsageStatisticsDialog/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1603809816020" />
+    <state width="313" height="442" key="Diff.GoToChangePopup" timestamp="1602896463504">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="313" height="442" key="Diff.GoToChangePopup/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602896463504" />
+    <state x="149" y="69" width="1228" height="720" key="DiffContextDialog" timestamp="1602977248385">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="149" y="69" width="1228" height="720" key="DiffContextDialog/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602977248385" />
+    <state x="549" y="193" key="FileChooserDialogImpl" timestamp="1602960260832">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="549" y="193" key="FileChooserDialogImpl/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960260832" />
+    <state width="1493" height="224" key="GridCell.Tab.0.bottom" timestamp="1602960320482">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="224" key="GridCell.Tab.0.bottom/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960320482" />
+    <state width="1493" height="224" key="GridCell.Tab.0.center" timestamp="1602960320481">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="224" key="GridCell.Tab.0.center/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960320481" />
+    <state width="1493" height="224" key="GridCell.Tab.0.left" timestamp="1602960320481">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="224" key="GridCell.Tab.0.left/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960320481" />
+    <state width="1493" height="224" key="GridCell.Tab.0.right" timestamp="1602960320481">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="224" key="GridCell.Tab.0.right/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960320481" />
+    <state x="350" y="168" key="IDE.errors.dialog" timestamp="1603809709475">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="350" y="168" key="IDE.errors.dialog/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1603809709475" />
+    <state x="579" y="135" key="RollbackChangesDialog" timestamp="1602896631994">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="579" y="135" key="RollbackChangesDialog/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602896631994" />
+    <state x="278" y="97" key="SettingsEditor" timestamp="1602960263785">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="278" y="97" key="SettingsEditor/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602960263785" />
+    <state x="4524" y="591" width="545" height="687" maximized="true" key="dock-window-1" timestamp="1602970856704">
+      <screen x="3840" y="628" width="1920" height="1080" />
+    </state>
+    <state x="4524" y="591" width="545" height="687" maximized="true" key="dock-window-1/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1602970856704" />
+    <state x="605" y="25" width="583" height="801" key="find.popup" timestamp="1604017215076">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="605" y="25" width="583" height="801" key="find.popup/0.0.1536.864/3840.628.1920.1080@0.0.1536.864" timestamp="1604017215076" />
+  </component>
+</project>
