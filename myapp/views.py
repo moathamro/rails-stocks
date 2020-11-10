@@ -19,10 +19,18 @@ def index(request):
 
 # View for the single stock page
 # symbol is the requested stock's symbol ('AAPL' for Apple)
-def single_stock(request, symbol):
+# def single_stock(request, symbol):
+#
+# 	data = stock_api.get_stock_info(symbol)
+#
+# 	allStocks = Stock.objects.filter(top_rank__isnull=False).order_by('top_rank')
+# 	data["allStocks"] = allStocks
+# 	return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range':"1m"})
+#
 
+def single_stock_data(request, symbol):
 	data = stock_api.get_stock_info(symbol)
-	return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range':"1m"})
+	return JsonResponse({'data': data})
 
 
 def register(request):
@@ -64,8 +72,12 @@ def single_stock_historic(request, symbol, time_range):
 	return JsonResponse({'data': data})
 
 def single_stock(request, symbol, time_range="1m"):
+
 	data = stock_api.get_stock_info(symbol)
-	return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range':time_range})
+
+	allStocks = Stock.objects.filter(top_rank__isnull=False).order_by('top_rank')
+	data["allStocks"] = allStocks
+	return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range':"1m"})
 
 
 def my_profile(request):
@@ -77,22 +89,6 @@ def my_profile(request):
 	return redirect('login')
 
 def edit_profile(request):
-	# if request.method == 'POST':
-	# 	# form = ProfileForm(request.POST)
-	# 	# if form.is_valid():
-	# 	# 	form.save()
-	# 	Profile.objects.filter(pk=request.user.pk).update(bio=request.POST['bio'])
-	# 	Profile.objects.filter(pk=request.user.pk).update(website=request.POST['website'])
-	# 	Profile.objects.filter(pk=request.user.pk).update(birth=request.POST['birth'])
-	# 	# Profile.objects.filter(pk=request.user.pk).update(image=request.POST['image'])
-	#
-	# 	return redirect('accounts/profile')
-	# else:
-	# 	profile = request.user.profile
-	# 	# form = ProfileForm(instance=profile)
-	# 	form = ProfileForm()
-	# 	args = {'form': form}
-	# 	return render(request,'edit_profile.html',args)
 	if request.user.is_authenticated:
 		profile = request.user.profile
 		form = ProfileForm(instance=profile)
@@ -111,8 +107,7 @@ def edit_profile(request):
 def favorite(request,symbol=''):
 
 	if request.user.is_authenticated:
-		# stk = Stock.objects.create(current_user=request.user)
-		# stk.favorite.add(Stock.objects.get(pk=symbol))
+
 		stock = Stock.objects.get(pk=symbol)
 		Stock.make_favorite(request.user, stock)
 		return redirect('profile')
@@ -147,5 +142,9 @@ def unfavorite(request,symbol=''):
 # return render(request,'profile.html', {'user': request.user})
 	return redirect('login')
 
+def single_stock_financials(request, symbol):
+	if request.is_ajax and request.method == "GET":
+		data = stock_api.get_stock_financials_report(symbol)
+	return JsonResponse({'data': data})
 
 

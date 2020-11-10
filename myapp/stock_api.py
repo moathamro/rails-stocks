@@ -71,11 +71,6 @@ def get_stock_historic_prices(symbol, time_range='1m'):
 
 
 
+def get_stock_financials_report(symbol):
+	return _request_data('/stable/stock/{symbol}/financials'.format(symbol=symbol))
 
-"""
-- request_data: handles the connection to the api
-  other funcs just sets what data should be returns from the api
--get top stocks: returns the most active stocks on the list, the list we see on the main page
--get stocks info:returns an info about specific stock, filtered by the symbol of the stock
--get stock historic: 
-"""
