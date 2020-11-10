@@ -38,16 +38,39 @@ def _get_top_stocks():
 							  filter='symbol,companyName,latestVolume,change,changePercent,primaryExchange,marketCap,latestPrice,calculationPrice',
 							  additional_parameters={'displayPercent': 'true', 'listLimit': '20'})
 
+"""
+NOTE=============================
+difference between change and change over time
+
+"""
+
 
 def get_stock_info(symbol):
 	# 'symbol,companyName,marketcap,totalCash,primaryExchange,latestPrice,latestSource,change,changePercent'
-	return _request_data('/stable/stock/{symbol}/quote'.format(symbol=symbol),
+	data = _request_data('/stable/stock/{symbol}/quote'.format(symbol=symbol),
 							  additional_parameters={'displayPercent': 'true'})
+	#to get the currency
+	data2= _request_data('/stable/stock/{symbol}/financials'.format(symbol=symbol),
+							  additional_parameters={'displayPercent': 'true'})
+
+	finan_list = data2["financials"]
+	data['currency'] =finan_list[0]['currency']
+
+	data3 = _request_data('/stable/stock/{symbol}/company'.format(symbol=symbol),
+							  additional_parameters={'displayPercent': 'true'})
+
+	data['issue'] = data3['issueType']
+
+
+
+	return data
 
 
 def get_stock_historic_prices(symbol, time_range='1m'):
 	return _request_data('/stable/stock/{symbol}/chart/{time_range}'.format(symbol=symbol, time_range=time_range))
 
 
+
 def get_stock_financials_report(symbol):
 	return _request_data('/stable/stock/{symbol}/financials'.format(symbol=symbol))
+
