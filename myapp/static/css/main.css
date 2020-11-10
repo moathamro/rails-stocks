@@ -46,3 +46,8 @@ body {
 .fav-icon:hover {
     visibility: visible;
 }
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}

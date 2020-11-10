@@ -7,6 +7,9 @@
         <div class="col-1 text-right">X</div>
     </div>
     -->
+
+
+
     <table class="table table-hover data-table">
         <tr>
         <tr>
@@ -18,7 +21,8 @@
             <th>index</th>
         </tr>
         {% for stock in data %}
-            <tr class="clickable-row" data-href="/stock/{{ stock.symbol }}">
+            <tr class="clickable-row" data-href="/stock/{{ stock.symbol }}/1m">
+
                 <td>{{ forloop.counter }}</td>
                 <td>{{ stock.symbol }}</td>
                 <td>{{ stock.name }}</td>
@@ -38,12 +42,3 @@
         {% endfor %}
     </table>
 {% endblock %}
-<!--
-            <div href="
-                        {% if user.is_authenticated %}
-                            /stock/favorite/{{ stock.symbol }}
-                        {% else %}
-                            url 'login'
-                        {% endif %}
-                    "><i class="fa fa-star"></i></div>
-            -->
