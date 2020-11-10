@@ -12,11 +12,13 @@
 
     <table class="table table-hover data-table">
         <tr>
+        <tr>
             <th>#</th>
             <th>Symbol</th>
             <th>Name</th>
             <th>Price</th>
             <th>Change</th>
+            <th>index</th>
         </tr>
         {% for stock in data %}
             <tr class="clickable-row" data-href="/stock/{{ stock.symbol }}/1m">
@@ -31,9 +33,12 @@
                 {% else %}
                     text-danger
                 {% endif %}
-                ">{{ stock.change_percent|floatformat:2 }}%</td>
+                ">{{ stock.change_percent|floatformat:2 }}%
+                </td>
+                <td><i class="fa fa-star fav-icon"></i></td>
 
             </tr>
+
         {% endfor %}
     </table>
 {% endblock %}

@@ -12,8 +12,6 @@ class Command(BaseCommand):
 
 		index = 1
 		for stock in top_stocks:
-			# This searches for a stock with the given 'symbol' (the primary key)
-			# and updates/create it with the values specified in the 'defaults' parameter
 			stock_model, created = Stock.objects.update_or_create(symbol=stock['symbol'], defaults={
 				'name': stock['companyName'],
 				'top_rank': index,

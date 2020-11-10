@@ -17,8 +17,9 @@ urlpatterns = [
 	path('edit', views.edit_profile, name='edit_profile'),
 	path('add/<str:symbol>/', views.favorite, name='favorite'),
 	path('remove/<str:symbol>/', views.unfavorite, name='favorite'),
-	path('chr/', views.chart, name='chart')
-
+	path('chr/', views.chart, name='chart'),
+	path('search/', views.search, name='search'),
+    path('viewall', views.view_all, name='view_all'),
 ]
 
 
