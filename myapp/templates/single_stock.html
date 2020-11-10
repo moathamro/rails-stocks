@@ -2,28 +2,40 @@
 
 {% block content %}
 <div class="col-md-12 text-left">
-		<h2 class="display-4">
-				{{ data.companyName }}
-				<small class="text-muted">({{ data.symbol }})</small>
-		</h2>
+	<h2 class="display-4">
+		{{ data.companyName }}
+		<small class="text-muted">({{ data.symbol }})</small>
+	</h2>
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+			aria-haspopup="true" aria-expanded="false">
+			Compare With
+		</button>
+		<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+
+			{% for stock in data.allStocks %}
+			<a class="dropdown-item" onclick="compare('{{stock.symbol}}')" href="#">{{stock.name}}</a>
+			{% endfor %}
+		</div>
+	</div>
 </div>
 
 <div class="col-md-12 text-left">
-		<p class="lead">{{ data.primaryExchange }}</p>
+	<p class="lead">{{ data.primaryExchange }}</p>
 </div>
 
 <div class="col-md-12 text-left">
 	<span class="lead">
-	<big>
+		<big>
 			{{ data.latestPrice }}
 			<small class="lead">
-					{% if data.changePercent >= 0 %}
-									<span class="text-success">+{{ data.change }} (+{{ data.changePercent }}%)</span>
-							{% else %}
-									<span class="text-danger">{{ data.change }} ({{ data.changePercent }}%)</span>
-							{% endif %}
+				{% if data.changePercent >= 0 %}
+				<span class="text-success">+{{ data.change }} (+{{ data.changePercent }}%)</span>
+				{% else %}
+				<span class="text-danger">{{ data.change }} ({{ data.changePercent }}%)</span>
+				{% endif %}
 			</small>
-	</big>
+		</big>
 	</span>
 	<br>
 	<small class="text-muted">Updated time: {{ data.latestTime }}</small>
@@ -31,24 +43,34 @@
 <div class="row">
 	<div class="pt-4 col-sm-6 pl-5">
 		<dl class="row text-left">
-			<dt class="col-sm-6">Previous Close</dt>
-			<dd class="col-sm-6">{{ data.previousClose }}</dd>
+			<dt class="col-sm-6 compare">Previous Close</dt>
+			<dd class="col-sm-6 compare">{{ data.previousClose }}</dd>
+			<dd id="previousClose" class="col-sm-4 text-info d-none">{{ data.previousClose }}</dd>
 
-			<dt class="col-sm-6">Volume</dt>
-			<dd class="col-sm-6">{{ data.volume }}
+			<dt class="col-sm-6 compare">Volume</dt>
+			<dd class="col-sm-6 compare">{{ data.volume }}
+			</dd>
+			<dd id="volume" class="col-sm-4 text-info d-none">{{ data.volume }}
 			</dd>
 
-			<dt class="col-sm-6">52 Weeks Low</dt>
-			<dd class="col-sm-6">{{ data.week52Low }}</dd>
+			<dt class="col-sm-6 compare">52 Weeks Low</dt>
+			<dd class="col-sm-6 compare">{{ data.week52Low }}</dd>
+			<dd id="week52Low" class="col-sm-4 text-info d-none">{{ data.week52Low }}</dd>
 
-			<dt class="col-sm-6">52 Weeks High</dt>
-			<dd class="col-sm-6">{{ data.week52High }}</dd>
+			<dt class="col-sm-6 compare">52 Weeks High</dt>
+			<dd class="col-sm-6 compare">{{ data.week52High }}</dd>
+			<dd id="week52High" class="col-sm-4 text-info d-none">{{ data.week52High }}</dd>
 
-			<dt class="col-sm-6">Year Change</dt>
-			<dd class="col-sm-6">{{ data.ytdChange }}</dd>
+			<dt class="col-sm-6 compare">Year Change</dt>
+			<dd class="col-sm-6 compare">{{ data.ytdChange }}</dd>
+			<dd id="ytdChange" class="col-sm-4 text-info d-none">{{ data.ytdChange }}</dd>
 
-			<dt class="col-sm-6">Market Cap</dt>
-			<dd class="col-sm-6">{{ data.marketCap }}</dd>
+			<dt class="col-sm-6 compare">Market Cap</dt>
+			<dd class="col-sm-6 compare">{{ data.marketCap }}</dd>
+			<dd id="marketCap" class="col-sm-4 text-info d-none">{{ data.marketCap }}</dd>
+
+			<dt class="col-sm-6">Quarterly ( Revenue / Loss )</dt>
+			<dd id="quarterlyRevenue" class="col-sm-6"></dd>
 		</dl>
 	</div>
 
@@ -82,34 +104,155 @@
 
 {% block scripts %}
 <script>
-	$(document).ready(function(){
-		$.get( "/historic/{{ data.symbol }}/", function( data ) {
-			historic_data = data.data.sort(function(a, b) { return a.date - b.date; })
 
-			var ctxL = document.getElementById("stockChart").getContext('2d');
-			var myLineChart = new Chart(ctxL, {
-				type: 'line',
-				data: {
-					labels: historic_data.map(d => d.label),
-					datasets: [
-						{
-							label: "{{ data.symbol }}",
-							data: historic_data.map(d => d.close),
-							backgroundColor: [
-								'rgba(105, 0, 132, .2)',
-							],
-							borderColor: [
-								'rgba(200, 99, 132, .7)',
-							],
-							borderWidth: 2
-						}
-					]
-				},
-				options: {
-					responsive: true
+	$(document).ready(function () {
+
+		initGraph();
+		refreshGraph();
+
+		$.ajax({
+			type: 'GET',
+			url: "/financials/{{ data.symbol }}/",
+			success: function (result) {
+				data = result.data.financials[0];
+				revenue = data.totalRevenue - data.costOfRevenue;
+				$("#quarterlyRevenue").text(revenue);
+
+				if(revenue > 0){
+					$("#quarterlyRevenue").addClass("text-success");
+				} else{
+					$("#quarterlyRevenue").addClass("text-danger");
 				}
-			});
+
+			}
 		});
+
 	});
+
+	var timeOut;
+	var myLineChart;
+
+	function addData(chart, data) {
+		chart.data.datasets[1] = data;
+		chart.update();
+	}
+
+	function refreshData(chart, data, index) {
+		chart.data.datasets[index].data = data;
+		chart.update();
+	}
+
+
+	function initGraph() {
+		$.ajax({
+			type: 'GET',
+			url: "/historic/{{ data.symbol }}/",
+			success: function (result) {
+				historic_data = result.data.sort(function (a, b) { return a.date - b.date; })
+
+				var ctxL = document.getElementById("stockChart").getContext('2d');
+				myLineChart = new Chart(ctxL, {
+					type: 'line',
+					data: {
+						labels: historic_data.map(d => d.label),
+						datasets: [
+							{
+								label: "{{ data.symbol }}",
+								data: historic_data.map(d => d.close),
+								backgroundColor: [
+									'rgba(105, 0, 132, .2)',
+								],
+								borderColor: [
+									'rgba(200, 99, 132, .7)',
+								],
+								borderWidth: 2
+							}
+						]
+					},
+					options: {
+						responsive: true
+					}
+				});
+			}
+		});
+
+	}
+
+	function compare(symbol) {
+
+		$.ajax({
+			type: 'GET',
+			url: "/historic/" + symbol + "/",
+			success: function (result) {
+				historic_data_2 = result.data.sort(function (a, b) { return a.date - b.date; });
+				data = {
+					label: symbol,
+					data: historic_data_2.map(d => d.close),
+					backgroundColor: [
+						'rgba(0, 105, 132, .2)',
+					],
+					borderColor: [
+						'rgba(99, 200, 132, .7)',
+					],
+					borderWidth: 2
+				}
+
+				addData(myLineChart, data);
+				refreshGraph(symbol);
+
+			}
+		});
+		$.ajax({
+			type: 'GET',
+			url: "/stock/" + symbol + "/data/",
+			success: function (result) {
+				data = result.data;
+				$(".compare").removeClass("col-sm-6");
+				$(".compare").addClass("col-sm-4");
+				$("dd").removeClass("d-none");
+				$("#previousClose").text(data.previousClose);
+				$("#volume").text(data.volume);
+				$("#week52Low").text(data.week52Low);
+				$("#week52High").text(data.week52High);
+				$("#ytdChange").text(data.ytdChange);
+				$("#marketCap").text(data.marketCap);
+
+			}
+		});
+	}
+
+
+	function refreshGraph(symbol) {
+		symbol = symbol || '';
+		$.ajax({
+			type: 'GET',
+			url: "/historic/{{ data.symbol }}/",
+			success: function (result) {
+				historic_data = result.data.sort(function (a, b) { return a.date - b.date; })
+				data = historic_data.map(d => d.close);
+				refreshData(myLineChart, data, 0);
+
+				if (symbol != '') {
+					$.ajax({
+						type: 'GET',
+						url: "/historic/" + symbol + "/",
+						success: function (result) {
+							historic_data = result.data.sort(function (a, b) { return a.date - b.date; })
+							data = historic_data.map(d => d.close);
+							refreshData(myLineChart, data, 1);
+							clearTimeout(timeOut);
+							timeOut = setTimeout(function () { refreshGraph(symbol); }, 10000);
+
+						}
+					});
+
+				} else {
+					timeOut = setTimeout(function () { refreshGraph(); }, 10000);
+				}
+			}
+		});
+
+	}
+
 </script>
 {% endblock %}
