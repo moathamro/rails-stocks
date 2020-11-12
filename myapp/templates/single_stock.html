@@ -11,13 +11,17 @@
 			</h2>
 		</div>
 		<div class="col-lg-6 text-right">
-			<form action='#' method='POST' style="display:inline-block">
-				{% csrf_token %}
-				<input type="hidden" name="name" value="{{data.symbol}}}}">
-				<button class="text-right btn btn-outline-dark btn-lg">add to my portfolio</button>
-			</form>
-			<a class="text-right btn btn-outline-danger btn-lg" href="/add/{{ data.symbol }}/" role="button"
-				style="display:inline-block">Favorite it</a>
+			<a class="text-right btn btn-outline-dark btn-lg" href="/buy/{{ data.symbol }}/"
+				   role="button" style="display:inline-block">add to my portfolio</a>
+			<a id="favo" class="text-right btn btn-outline-danger btn-lg" href="/{{fav}}/{{ data.symbol }}/"
+				   role="button" style="display:inline-block">{{fav}}</a>
+<!--			<form action='#' method='POST' style="display:inline-block">-->
+<!--				{% csrf_token %}-->
+<!--				<input type="hidden" name="name" value="{{data.symbol}}}}">-->
+<!--				<button class="text-right btn btn-outline-dark btn-lg">add to my portfolio</button>-->
+<!--			</form>-->
+<!--			<a class="text-right btn btn-outline-danger btn-lg" href="/add/{{ data.symbol }}/" role="button"-->
+<!--				style="display:inline-block">Favorite it</a>-->
 			<!--				<form action='/add/{{ data.symbol }}/' method='POST' style="display:inline-block">-->
 			<!--  					<input type="hidden" name="name" value="{{data.symbol}}}}">-->
 			<!--					<button class="text-right btn btn-outline-danger btn-lg" >favorite it</button>-->
