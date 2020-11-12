@@ -7,27 +7,27 @@ import datetime
 
 # Create your models here.
 class Stock(models.Model):
-    favorite = models.ManyToManyField(User)
-    current_user = models.ForeignKey(
-        User, related_name='owner', null=True, on_delete=models.SET_NULL)
+    favorite = models.ManyToManyField(User, related_name='fav_set')
+    portfolio_list = models.ManyToManyField(User, related_name='port_set', through='Portfolio')
+    current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.SET_NULL)
 
-    @classmethod
-    def make_favorite(cls, user, stock):
-
-        stock.current_user = user
-        stock.favorite.add(user)
-        # stock, created = cls.objects.update_or_create(
-        # 	current_user = user
-        # )
-        # stock.favorite.add(user)
-        stock.save()
-
-    @classmethod
-    def unfavorite(cls, user, stock):
-        # stock.current_user = user
-        # Stock.objects.filter(pk=user.pk).update(current_user='')
-        stock.favorite.remove(user)
-        stock.save()
+    # @classmethod
+    # def make_favorite(cls, user, stock):
+    #
+    #     stock.current_user = user
+    #     stock.favorite.add(user)
+    #     # stock, created = cls.objects.update_or_create(
+    #     # 	current_user = user
+    #     # )
+    #     # stock.favorite.add(user)
+    #     stock.save()
+    #
+    # @classmethod
+    # def unfavorite(cls, user, stock):
+    #     # stock.current_user = user
+    #     # Stock.objects.filter(pk=user.pk).update(current_user='')
+    #     stock.favorite.remove(user)
+    #     stock.save()
 
     symbol = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=64)
@@ -65,6 +65,17 @@ class Activity(models.Model):
 def create_profile(sender, **kwargs):
     if kwargs['created']:
         user_profile = Profile.objects.create(user=kwargs['instance'])
+
+
+class Portfolio(models.Model):
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_price = models.FloatField(null=True)
+    date = models.DateTimeField(default=datetime.datetime.now())
+    shares = models.IntegerField(null=True)
+
+    class Meta:
+        unique_together = [['user','stock']]
 
 
 def log_user_login(sender, user, **kwargs):

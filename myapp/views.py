@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from . import stock_api
-from .models import Stock, Profile, Activity
+from .models import Stock, Profile, Activity, Portfolio
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.views.generic import TemplateView
 from .edit_form import ProfileForm
+import datetime
 from django.http import HttpResponseRedirect
 
 
@@ -25,10 +26,13 @@ def index(request):
 # symbol is the requested stock's symbol ('AAPL' for Apple)
 def single_stock(request, symbol, time_range="1m"):
     data = stock_api.get_stock_info(symbol)
+    stock = Stock.objects.get(pk=symbol)
+    lst = request.user.fav_set.all()
+    fav = 'unfavorite' if stock in lst else 'favorite'
     allStocks = Stock.objects.filter(
         top_rank__isnull=False).order_by('top_rank')
     data["allStocks"] = allStocks
-    return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range': time_range})
+    return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range': time_range,'fav':fav})
 
 
 def register(request):
@@ -116,7 +120,7 @@ def single_stock_historic(request, symbol, time_range):
 def my_profile(request):
     if request.user.is_authenticated:
         fav_stocks = Stock.objects.filter(current_user=request.user)
-        lst = request.user.stock_set.all()
+        lst = request.user.fav_set.all()
         activities = Activity.objects.filter(user=request.user)
         return render(request, 'profile.html', {'user': request.user, 'fav_stocks': lst, 'activities': activities})
     return redirect('login')
@@ -136,40 +140,84 @@ def edit_profile(request):
         return render(request, 'edit_profile.html', args)
     return redirect('login')
 
-
-def favorite(request, symbol=''):
-
+def my_portfolio(request):
     if request.user.is_authenticated:
+        # fav_stocks = Stock.objects.filter(current_user = request.user)
+        # lst = Portfolio.objects.filter()
+        lst = request.user.port_set.all()
+        for stock in lst:
+            port = Portfolio.objects.filter(stock=stock)
+            print('port: ', port)
+        return render(request, 'portfolio.html', {'data': lst})
+    return redirect('login')
 
+def buy(request, symbol=''):
+    if request.user.is_authenticated:
         stock = Stock.objects.get(pk=symbol)
-        Stock.make_favorite(request.user, stock)
+        stock.portfolio_list.add(request.user, through_defaults={
+            'first_price': stock.price,
+            'date': datetime.datetime.now(),
+            'shares': 2
+        })
+        stock.save()
+        return redirect('portfolio')
+    return redirect('login')
+
+def favorite(request,symbol=''):
+    if request.user.is_authenticated:
+        stock = Stock.objects.get(pk=symbol)
+        stock.current_user = request.user
+        stock.favorite.add(request.user)
+        stock.save()
+        # Stock.make_favorite(request.user, stock)
         return redirect('profile')
     return redirect('login')
 
 
-# return render(request,'profile.html', {'user': request.user})
 
-
-def unfavorite(request, symbol=''):
+def unfavorite(request,symbol=''):
     if request.user.is_authenticated:
-        # stk, created = Stock.objects.get_or_create(current_user=request.user)
-        # stk.favorite.remove(Stock.objects.get(pk=symbol))
-
         user = User.objects.get(pk=request.user.pk)
-        # stock = Stock()
-        # stock.favorite.remove(user)
-        # lst = Stock.objects.
-
         stock = Stock.objects.get(pk=symbol)
         stock.favorite.remove(user)
-        # print('list of users loving this stock:',stock.favorite.all())
-        # print('this stock current user', stock.current_user)
-        print('the list of stocks that this user loves', user.stock_set.all())
-        # print('this is the list::::::::::::::',Stock.objects.filter(current_user = request.user))
         stock.save()
         return redirect('profile')
-# return render(request,'profile.html', {'user': request.user})
     return redirect('login')
+
+
+# def favorite(request, symbol=''):
+#
+#     if request.user.is_authenticated:
+#
+#         stock = Stock.objects.get(pk=symbol)
+#         Stock.make_favorite(request.user, stock)
+#         return redirect('profile')
+#     return redirect('login')
+#
+#
+# # return render(request,'profile.html', {'user': request.user})
+#
+#
+# def unfavorite(request, symbol=''):
+#     if request.user.is_authenticated:
+#         # stk, created = Stock.objects.get_or_create(current_user=request.user)
+#         # stk.favorite.remove(Stock.objects.get(pk=symbol))
+#
+#         user = User.objects.get(pk=request.user.pk)
+#         # stock = Stock()
+#         # stock.favorite.remove(user)
+#         # lst = Stock.objects.
+#
+#         stock = Stock.objects.get(pk=symbol)
+#         stock.favorite.remove(user)
+#         # print('list of users loving this stock:',stock.favorite.all())
+#         # print('this stock current user', stock.current_user)
+#         print('the list of stocks that this user loves', user.stock_set.all())
+#         # print('this is the list::::::::::::::',Stock.objects.filter(current_user = request.user))
+#         stock.save()
+#         return redirect('profile')
+# # return render(request,'profile.html', {'user': request.user})
+#     return redirect('login')
 
 
 def single_stock_financials(request, symbol):
