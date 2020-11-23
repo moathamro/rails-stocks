@@ -25,7 +25,7 @@ SECRET_KEY = '!sq5o3kstxfaxw&%nq9*t63^q!cr_-4l7#b-nb*5@zv2b$9eut'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = {'*'}
 
 
 # Application definition
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'myrails.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': '/mnt/db.sqlite3',
     }
 }
 
