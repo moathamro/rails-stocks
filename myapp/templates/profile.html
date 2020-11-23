@@ -46,62 +46,65 @@
             <div class="text-right"><a href="/edit">edit personal info</a></div>
 
 
+                <a id="fav"></a><hr>
+                <h1>Favorite stocks</h1>
+{%if fav_stocks%}
+                    <table class="table table-hover data-table">
+                    <tr>
+                        <th>#</th>
+                        <th>Symbol</th>
+                        <th>Name</th>
+                        <th> </th>
 
+                    </tr>
+                    {%for stock in fav_stocks%}
+                    <tr class="clickable-row" data-href="/stock/{{ stock.symbol }}/1m">
 
-            <a id="fav"></a>
-            <hr>
-            <h1>Favorite stocks</h1>
-
-            <table class="table table-hover data-table">
-                <tr>
-                    <th>#</th>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th> </th>
-
-                </tr>
-                {%for stock in fav_stocks%}
-                <tr class="clickable-row" data-href="/stock/{{ stock.symbol }}/1m">
-
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ stock.symbol }}</td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ stock.symbol }}</td>
                     <td>{{ stock.name }}</td>
-                    <td><a class="text-right btn btn-danger btn-sm" href="/remove/{{ stock.symbol }}/"
-                            role="button">remove</a></td>
+                    <td><a class="text-right btn btn-danger btn-sm" href="/unfavorite/{{ stock.symbol }}/" role="button">remove</a></td>
 
-                </tr>
-                {% endfor %}
-            </table>
-
-
-            <!--                <ul>-->
-            <!--                    {%for stock in fav_stocks%}-->
-            <!--                    <li><a href="/stock/{{ stock.symbol }}/1m">{{ stock.symbol }}</a></li>-->
-            <!--                </ul>-->
-            <!--                    {% endfor %}-->
-
-            <a id="act"></a>
-            <hr>
-            <h1>Activities' Review</h1>
-
-            <table class="table table-hover data-table">
-                <tr>
-                    <th>activity</th>
-                    <th>time</th>
-
-                </tr>
-                {%for act in activities%}
-                <tr>
-                    <td>{{ act.type }}</td>
-                    <td>{{ act.time }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+                    </tr>
+                    {% endfor %}
+                    </table>
+                {%else %}
+                <big class="text-danger">No favorite stalks to diplay</big>
+                <a href="/" >Move to stalks list</a>
+                {%endif%}
 
 
-        </div>
-    </div>
-</div>
+<!--                <ul>-->
+<!--                    {%for stock in fav_stocks%}-->
+<!--                    <li><a href="/stock/{{ stock.symbol }}/1m">{{ stock.symbol }}</a></li>-->
+<!--                </ul>-->
+<!--                    {% endfor %}-->
+
+                <a id="act"></a><hr>
+                <h1>Activities' Review</h1>
+                {%if activities%}
+
+                    <table class="table table-hover data-table">
+                    <tr>
+                        <th>activity</th>
+                        <th>time</th>
+                        <th><div class="text-right" ><a href="/clear">clear history</a></div></th>
+                    </tr>
+                    {%for act in activities%}
+                    <tr>
+                        <td>{{ act.type }}</td>
+                        <td>{{ act.time }}</td>
+                    </tr>
+                    {% endfor %}
+                    </table>
+                {%else%}
+                <big class="text-danger">No data to display</big>
+                {%endif%}
+
+
+            </div>
+		</div>
+	</div>
 
 <!--<div class="container">-->
 <!--    <div class="row text-left">-->

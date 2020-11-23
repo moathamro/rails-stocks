@@ -22,6 +22,9 @@ urlpatterns = [
     path('buy/<str:symbol>/', views.buy, name='buy'),
     path('portfolio/', views.my_portfolio, name='portfolio'),
     path('unfavorite/<str:symbol>/', views.unfavorite, name='favorite'),
+    path('sell/<str:symbol>/', views.sell, name='toSell'),
+    path('clear', views.history, name='history'),
+
     # path('add/<str:symbol>/', views.favorite, name='favorite'),
     # path('remove/<str:symbol>/', views.unfavorite, name='favorite'),
     path('chr/', views.chart, name='chart'),

@@ -13,24 +13,6 @@ class Stock(models.Model):
     current_user = models.ForeignKey(
         User, related_name='owner', null=True, on_delete=models.SET_NULL)
 
-    # @classmethod
-    # def make_favorite(cls, user, stock):
-    #
-    #     stock.current_user = user
-    #     stock.favorite.add(user)
-    #     # stock, created = cls.objects.update_or_create(
-    #     # 	current_user = user
-    #     # )
-    #     # stock.favorite.add(user)
-    #     stock.save()
-    #
-    # @classmethod
-    # def unfavorite(cls, user, stock):
-    #     # stock.current_user = user
-    #     # Stock.objects.filter(pk=user.pk).update(current_user='')
-    #     stock.favorite.remove(user)
-    #     stock.save()
-
     symbol = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=64)
     change_over_time = models.FloatField(null=True)
@@ -44,12 +26,13 @@ class Stock(models.Model):
     def __str__(self):
         return self.symbol
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth = models.CharField(max_length=100, default='')
-    city = models.CharField(max_length=100, default='')
-    job = models.CharField(max_length=300, default='')
-    bio = models.CharField(max_length=300, default='')
+    birth = models.CharField(max_length=100, default='',blank=True)
+    city = models.CharField(max_length=100, default='',blank=True)
+    job = models.CharField(max_length=300, default='',blank=True)
+    bio = models.CharField(max_length=300, default='',blank=True)
     website = models.URLField(default='', blank=True)
     image = models.ImageField(
         blank=True, upload_to='profile_pics', default='profile.png')
@@ -65,6 +48,14 @@ class Activity(models.Model):
     # date =  models.DateField(default=datetime.date.today())
     time = models.DateTimeField(default=datetime.datetime.now())
 
+class Choices(models.Model):
+    mChoices = (
+        ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'),
+        ('10', '10'), ('11', '11'), ('12', '12'))
+    yChoices = (('1', '20'), ('2', '22'), ('3', '23'), ('4', '24'), ('5', '25'))
+
+    month = models.CharField(max_length=300, choices= mChoices)
+    year = models.CharField(max_length=300, choices=yChoices)
 
 def create_profile(sender, **kwargs):
     if kwargs['created']:

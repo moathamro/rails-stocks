@@ -1,7 +1,55 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
+<link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css">
 
+
+<!-- Modal -->
+<div class="modal fade modal-sm" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Purchase</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		  		  <form id="myform" action="/buy/{{ data.symbol }}/" method="post">{%csrf_token%}
+					  <div class="form-group">
+							{{ form.name|as_crispy_field }}
+						  	<small>{{wrong.wrong_name}}</small>
+							{{ form.credit|as_crispy_field }}
+						  <small>{{wrong.wrong_credit}}</small>
+							{{ form.shares|as_crispy_field }}
+						  <small>{{wrong.wrong_shares}}</small>
+							  <div class="form-row">
+    							<div id="month" class="col-md-4">
+									{{ form.month|as_crispy_field }}
+									<small>{{wrong.wrong_month}}</small>
+								</div>
+								<div id="year" class="col-md-4">
+									{{ form.year|as_crispy_field }}
+									<small>{{wrong.wrong_year}}</small>
+								</div>
+								<div id="cvv" class="col-md-4">
+									{{ form.cvv|as_crispy_field }}
+									<small>{{wrong.wrong_cvv}}</small>
+								</div>
+							  </div>
+<!--						  {{form.as_p}}-->
+					  </div>
+					  <div class="modal-footer ">
+        				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        				<button id="submit" type="submit" class="btn btn-success">Submit</button>
+					  </div>
+				  </form>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container">
 	<div class="row">
 		<div class=" col-lg-6 col-md-12 text-left">
@@ -10,23 +58,24 @@
 				<small class="text-muted">({{ data.symbol }})</small>
 			</h2>
 		</div>
+
 		<div class="col-lg-6 text-right">
-			<a class="text-right btn btn-outline-dark btn-lg" href="/buy/{{ data.symbol }}/"
-				   role="button" style="display:inline-block">add to my portfolio</a>
+			{% if por == 'add to my portfolio' %}
+<button type="button" id="add" class="text-right btn btn-outline-dark btn-lg" style="display:inline-block" data-toggle="modal" data-target="#exampleModalLong">
+
+  add to my portfolio
+</button>
+			{% else %}
+			<a  class="text-right btn btn-outline-dark btn-lg" href="/{{sell}}/{{ data.symbol }}/"
+				   role="button" style="display:inline-block">{{por}}</a>
+			{% endif %}
+<!--			<button type="button" class="text-right btn btn-outline-dark btn-lg" style="display:inline-block" data-toggle="modal" data-target="#exampleModalLong">-->
+
+<!--  add to my portfolio-->
+<!--</button>-->
+
 			<a id="favo" class="text-right btn btn-outline-danger btn-lg" href="/{{fav}}/{{ data.symbol }}/"
 				   role="button" style="display:inline-block">{{fav}}</a>
-<!--			<form action='#' method='POST' style="display:inline-block">-->
-<!--				{% csrf_token %}-->
-<!--				<input type="hidden" name="name" value="{{data.symbol}}}}">-->
-<!--				<button class="text-right btn btn-outline-dark btn-lg">add to my portfolio</button>-->
-<!--			</form>-->
-<!--			<a class="text-right btn btn-outline-danger btn-lg" href="/add/{{ data.symbol }}/" role="button"-->
-<!--				style="display:inline-block">Favorite it</a>-->
-			<!--				<form action='/add/{{ data.symbol }}/' method='POST' style="display:inline-block">-->
-			<!--  					<input type="hidden" name="name" value="{{data.symbol}}}}">-->
-			<!--					<button class="text-right btn btn-outline-danger btn-lg" >favorite it</button>-->
-			<!--				</form>-->
-
 		</div>
 		<div class="dropdown">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -149,6 +198,8 @@
 
 {% block scripts %}
 <script>
+
+
 	$(document).ready(function () {
 
 		initGraph();

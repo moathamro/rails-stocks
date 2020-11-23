@@ -43,3 +43,12 @@ div.myform {
   text-align: left;
 
 }
+
+.modal,modal-footer {
+  position: absolute;
+  float: left;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: left;
+}

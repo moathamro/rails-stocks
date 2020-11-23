@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content%}
-
-    <table class="table table-hover data-table">
+<big  class="
+                {% if data.value >= 0 %}
+                    text-success
+                {% else %}
+                    text-danger
+                {% endif %}
+                ">My Revenue so far: {{data.value}}$</big>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+        <div class="col-md-8">
+                <table class="table table-hover data-table">
         <tr>
             <th>#</th>
             <th>Symbol</th>
@@ -11,27 +23,66 @@
             <th>Purchase Price</th>
             <th>Gain/Loss</th>
             <th>Date of Purchase</th>
+            <th> </th>
         </tr>
-        {% for stock in data %}
-            <tr class="clickable-row" data-href="/stock/{{ stock.symbol }}/1m">
+        {% for port in data.lst %}
+            <tr class="clickable-row" data-href="/stock/{{ port.stock.symbol }}/1m">
 
                 <td>{{ forloop.counter }}</td>
-                <td>{{ stock.symbol }}</td>
-                <td>{{ stock.name }}</td>
-                <td>{{ stock.port.shares }}</td>
-                <td>{{ stock.first_price }}</td>
-                <td>{{ stock.price|floatformat:2 }}</td>
-                <td>{{ stock.date }}</td>
-<!--                <td class="-->
-<!--                {% if stock.change_percent >= 0 %}-->
-<!--                    text-success-->
-<!--                {% else %}-->
-<!--                    text-danger-->
-<!--                {% endif %}-->
-<!--                ">{{ stock.change_percent|floatformat:2 }}%</td>-->
-
+                <td>{{ port.stock.symbol }}</td>
+                <td>{{ port.stock.name }}</td>
+                <td>{{ port.shares }}</td>
+                <td>{{ port.first_price }}</td>
+                             <td class="
+                {% if port.gain >= 0 %}
+                    text-success
+                {% else %}
+                    text-danger
+                {% endif %}
+                ">{{ port.gain|floatformat:2 }}%
+                </td>
+                <td>{{ port.date }}</td>
+                <td><a class="text-right btn btn-danger btn-sm" href="/sell/{{ port.stock.symbol }}/" role="button">sell</a></td>
             </tr>
         {% endfor %}
     </table>
+        </div>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+  window.onload = function () {
+<!--  var main = []-->
+<!--  for st in {{data.lst}}{-->
+<!--  var dict = {-->
+<!--    y : {{st.shares}},-->
+<!--    indexLabel: {{st.stock.symbol}}-->
+<!--  }-->
+<!--  main.push(dict)-->
+<!--  }-->
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+      title:{
+        text: "My portfolio revenue: {{data.value}}$"
+      },
+      data: [
+      {
+       type: "doughnut",
+       dataPoints:
+       [
+       {  y: 53.37, indexLabel: "Appl" },
+       {  y: 35.0, indexLabel: "PlUG" },
+       {  y: 7, indexLabel: "AMD" },
+       {  y: 2, indexLabel: "MTG" },
+       {  y: 5, indexLabel: "M" }
+       ]
+     }
+     ]
+   });
+
+    chart.render();
+  }
+  </script>
 
 {% endblock %}
