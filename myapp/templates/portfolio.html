@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content%}
-<big  class="
+<big class="
                 {% if data.value >= 0 %}
                     text-success
                 {% else %}
@@ -11,78 +11,69 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
         </div>
         <div class="col-md-8">
-                <table class="table table-hover data-table">
-        <tr>
-            <th>#</th>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Value of shares</th>
-            <th>Purchase Price</th>
-            <th>Gain/Loss</th>
-            <th>Date of Purchase</th>
-            <th> </th>
-        </tr>
-        {% for port in data.lst %}
-            <tr class="clickable-row" data-href="/stock/{{ port.stock.symbol }}/1m">
+            <table class="table table-hover data-table">
+                <tr>
+                    <th>#</th>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Value of shares</th>
+                    <th>Purchase Price</th>
+                    <th>Gain/Loss</th>
+                    <th>Date of Purchase</th>
+                    <th> </th>
+                </tr>
+                {% for port in data.lst %}
+                <tr class="clickable-row" data-href="/stock/{{ port.stock.symbol }}/1m">
 
-                <td>{{ forloop.counter }}</td>
-                <td>{{ port.stock.symbol }}</td>
-                <td>{{ port.stock.name }}</td>
-                <td>{{ port.shares }}</td>
-                <td>{{ port.first_price }}</td>
-                             <td class="
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ port.stock.symbol }}</td>
+                    <td>{{ port.stock.name }}</td>
+                    <td>{{ port.shares }}</td>
+                    <td>{{ port.first_price }}</td>
+                    <td class="
                 {% if port.gain >= 0 %}
                     text-success
                 {% else %}
                     text-danger
                 {% endif %}
                 ">{{ port.gain|floatformat:2 }}%
-                </td>
-                <td>{{ port.date }}</td>
-                <td><a class="text-right btn btn-danger btn-sm" href="/sell/{{ port.stock.symbol }}/" role="button">sell</a></td>
-            </tr>
-        {% endfor %}
-    </table>
+                    </td>
+                    <td>{{ port.date }}</td>
+                    <td><a class="text-right btn btn-danger btn-sm" href="/sell/{{ port.stock.symbol }}/"
+                            role="button">sell</a></td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 </div>
 
 
-  <script type="text/javascript">
-  window.onload = function () {
-<!--  var main = []-->
-<!--  for st in {{data.lst}}{-->
-<!--  var dict = {-->
-<!--    y : {{st.shares}},-->
-<!--    indexLabel: {{st.stock.symbol}}-->
-<!--  }-->
-<!--  main.push(dict)-->
-<!--  }-->
-    var chart = new CanvasJS.Chart("chartContainer",
-    {
-      title:{
-        text: "My portfolio revenue: {{data.value}}$"
-      },
-      data: [
-      {
-       type: "doughnut",
-       dataPoints:
-       [
-       {  y: 53.37, indexLabel: "Appl" },
-       {  y: 35.0, indexLabel: "PlUG" },
-       {  y: 7, indexLabel: "AMD" },
-       {  y: 2, indexLabel: "MTG" },
-       {  y: 5, indexLabel: "M" }
-       ]
-     }
-     ]
-   });
+<script type="text/javascript">
+    window.onload = function () {
+        var listData = []
+        "{% for st in data.lst %}"
+        listData.push({"y":"{{st.shares}}", "indexLabel":"{{st.stock.symbol}}"});
+        "{% endfor %}"
 
-    chart.render();
-  }
-  </script>
+        var chart = new CanvasJS.Chart("chartContainer",
+            {
+                title: {
+                    text: "My portfolio revenue: {{data.value}}$"
+                },
+                data: [
+                    {
+                        type: "doughnut",
+                        dataPoints: listData
+                    }
+                ]
+            });
+
+        chart.render();
+    }
+</script>
 
 {% endblock %}
