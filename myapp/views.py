@@ -5,14 +5,13 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.views.generic import TemplateView
-from .edit_form import ProfileForm
+from .forms import ProfileForm,buyForm
 import datetime
 from django.http import HttpResponseRedirect
 
 
 def chart(request):
     return render(request, 'circhart.html')
-# View for the home page - a list of 20 of the most active stocks
 
 
 def index(request):
@@ -25,14 +24,21 @@ def index(request):
 # View for the single stock page
 # symbol is the requested stock's symbol ('AAPL' for Apple)
 def single_stock(request, symbol, time_range="1m"):
+    fav = 'favorite'
+    por = 'add to my portfolio'
+    form = buyForm();
     data = stock_api.get_stock_info(symbol)
-    stock = Stock.objects.get(pk=symbol)
-    lst = request.user.fav_set.all()
-    fav = 'unfavorite' if stock in lst else 'favorite'
+    if request.user.is_authenticated:
+        stock = Stock.objects.get(pk=symbol)
+        lst = request.user.fav_set.all()
+        port = stock.portfolio_list.all()
+        fav = 'unfavorite' if stock in lst else 'favorite'
+        por = 'remove from my portfolio' if request.user in port else 'add to my portfolio'
+        print("this is por: ",por)
     allStocks = Stock.objects.filter(
         top_rank__isnull=False).order_by('top_rank')
     data["allStocks"] = allStocks
-    return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range': time_range,'fav':fav})
+    return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range': time_range,'fav':fav,'form':form,'por':por})
 
 
 def register(request):
@@ -125,6 +131,13 @@ def my_profile(request):
         return render(request, 'profile.html', {'user': request.user, 'fav_stocks': lst, 'activities': activities})
     return redirect('login')
 
+def history(request):
+    if request.user.is_authenticated:
+        activities = Activity.objects.filter(user=request.user).delete()
+
+        return redirect('profile')
+    return redirect('login')
+
 
 def edit_profile(request):
     if request.user.is_authenticated:
@@ -142,26 +155,99 @@ def edit_profile(request):
 
 def my_portfolio(request):
     if request.user.is_authenticated:
-        # fav_stocks = Stock.objects.filter(current_user = request.user)
-        # lst = Portfolio.objects.filter()
-        lst = request.user.port_set.all()
-        for stock in lst:
-            port = Portfolio.objects.filter(stock=stock)
-            print('port: ', port)
-        return render(request, 'portfolio.html', {'data': lst})
+
+        lst = request.user.portfolio_set.all() #returns portfolios
+        shares_lst = []
+        value = 0
+        for port in lst:
+            shares_lst.append({'y':port.shares, 'indexLabel':port.stock.symbol})
+            stock = Stock.objects.get(pk=port.stock.symbol)
+            now = stock.price*port.shares
+            value += now - port.first_price
+            new =(value/  port.first_price)
+            port.gain = new
+        data = {
+            'lst':lst,
+            'value' : value
+        }
+        return render(request, 'portfolio.html', {'data': data, 'shared':shares_lst})
     return redirect('login')
+
+
+
 
 def buy(request, symbol=''):
     if request.user.is_authenticated:
+        wrong = {}
+        value = '0'
+        str = "Invalid Input: "
+        if request.method == 'POST':
+            form = buyForm(request.POST)
+            if form.is_valid():
+                # ================================================new=============================
+                name = form.cleaned_data['name']
+                credit = form.cleaned_data['credit']
+                shares = form.cleaned_data['shares']
+                month = form.cleaned_data['month']
+                year = form.cleaned_data['year']
+                cvv = form.cleaned_data['cvv']
+
+                # if name.isnumeric():
+                #     value = '1'
+                #     wrong['wrong_name'] = str + "numeric input"
+                # else:
+                #     wrong['wrong_name'] = ""
+                # if credit < 1000000 or credit > 1000000000:
+                #     value = '1'
+                #     wrong['wrong_credit'] =str+"invalid number"
+                # else :
+                #     wrong['wrong_credit'] = ""
+                # if shares < 1 or credit:
+                #     value = '1'
+                #     wrong['wrong_shares'] =str+"invalid amount"
+                # else:
+                #     wrong['wrong_shares'] = ""
+                # if month < 1 or month > 12:
+                #     value = '1'
+                #     wrong['wrong_month'] = "invalid month"
+                # else:
+                #     wrong['wrong_month'] = ""
+                # if year < 20 or year > 25:
+                #     value = '1'
+                #     wrong['wrong_year'] = "invalid year"
+                # else:
+                #     wrong['wrong_year'] = ""
+                # if cvv < 100 or credit > 999:
+                #     value = '1'
+                #     wrong['wrong_cvv'] = "invalid cvv"
+                # else:
+                #     wrong['wrong_cvv'] = ""
+                # wrong['value'] = value
+                #
+
+
+
+            stock = Stock.objects.get(pk=symbol)
+            stock.portfolio_list.add(request.user,  through_defaults = {
+                'first_price': (stock.price)*form.cleaned_data['shares'],
+                'date': datetime.datetime.now(),
+                'shares': form.cleaned_data['shares'],
+            })
+
+        stock.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return redirect('login')
+
+
+def sell(request,symbol=''):
+    if request.user.is_authenticated:
+        user = User.objects.get(pk=request.user.pk)
         stock = Stock.objects.get(pk=symbol)
-        stock.portfolio_list.add(request.user, through_defaults={
-            'first_price': stock.price,
-            'date': datetime.datetime.now(),
-            'shares': 2
-        })
+        stock.portfolio_list.remove(user)
         stock.save()
         return redirect('portfolio')
     return redirect('login')
+
 
 def favorite(request,symbol=''):
     if request.user.is_authenticated:
@@ -170,7 +256,8 @@ def favorite(request,symbol=''):
         stock.favorite.add(request.user)
         stock.save()
         # Stock.make_favorite(request.user, stock)
-        return redirect('profile')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
     return redirect('login')
 
 
@@ -185,39 +272,6 @@ def unfavorite(request,symbol=''):
     return redirect('login')
 
 
-# def favorite(request, symbol=''):
-#
-#     if request.user.is_authenticated:
-#
-#         stock = Stock.objects.get(pk=symbol)
-#         Stock.make_favorite(request.user, stock)
-#         return redirect('profile')
-#     return redirect('login')
-#
-#
-# # return render(request,'profile.html', {'user': request.user})
-#
-#
-# def unfavorite(request, symbol=''):
-#     if request.user.is_authenticated:
-#         # stk, created = Stock.objects.get_or_create(current_user=request.user)
-#         # stk.favorite.remove(Stock.objects.get(pk=symbol))
-#
-#         user = User.objects.get(pk=request.user.pk)
-#         # stock = Stock()
-#         # stock.favorite.remove(user)
-#         # lst = Stock.objects.
-#
-#         stock = Stock.objects.get(pk=symbol)
-#         stock.favorite.remove(user)
-#         # print('list of users loving this stock:',stock.favorite.all())
-#         # print('this stock current user', stock.current_user)
-#         print('the list of stocks that this user loves', user.stock_set.all())
-#         # print('this is the list::::::::::::::',Stock.objects.filter(current_user = request.user))
-#         stock.save()
-#         return redirect('profile')
-# # return render(request,'profile.html', {'user': request.user})
-#     return redirect('login')
 
 
 def single_stock_financials(request, symbol):
