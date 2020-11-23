@@ -12,3 +12,4 @@ requests==2.24.0
 sqlparse==0.3.1
 toml==0.10.1
 urllib3==1.25.10
+django-crispy-forms>=1.9.0
