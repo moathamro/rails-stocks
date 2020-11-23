@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'myrails.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'mnt/db.sqlite3'),
+        'NAME': '/mnt/db.sqlite3',
     }
 }
 
