@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . import stock_api
-from .models import Stock, Profile, Activity, Portfolio
+from .models import Stock, Profile, Activity, Portfolio, Notification
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
@@ -8,6 +8,8 @@ from django.views.generic import TemplateView
 from .edit_form import ProfileForm
 import datetime
 from django.http import HttpResponseRedirect
+from itertools import chain
+from django.utils import timezone
 
 
 def chart(request):
@@ -25,14 +27,16 @@ def index(request):
 # View for the single stock page
 # symbol is the requested stock's symbol ('AAPL' for Apple)
 def single_stock(request, symbol, time_range="1m"):
+    fav = 'favorite'
     data = stock_api.get_stock_info(symbol)
-    stock = Stock.objects.get(pk=symbol)
-    lst = request.user.fav_set.all()
-    fav = 'unfavorite' if stock in lst else 'favorite'
+    if request.user.is_authenticated:
+        stock = Stock.objects.get(pk=symbol)
+        lst = request.user.fav_set.all()
+        fav = 'unfavorite' if stock in lst else 'favorite'
     allStocks = Stock.objects.filter(
         top_rank__isnull=False).order_by('top_rank')
     data["allStocks"] = allStocks
-    return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range': time_range,'fav':fav})
+    return render(request, 'single_stock.html', {'page_title': 'Stock Page - %s' % symbol, 'data': data, 'time_range': time_range, 'fav': fav})
 
 
 def register(request):
@@ -140,6 +144,7 @@ def edit_profile(request):
         return render(request, 'edit_profile.html', args)
     return redirect('login')
 
+
 def my_portfolio(request):
     if request.user.is_authenticated:
         # fav_stocks = Stock.objects.filter(current_user = request.user)
@@ -150,6 +155,7 @@ def my_portfolio(request):
             print('port: ', port)
         return render(request, 'portfolio.html', {'data': lst})
     return redirect('login')
+
 
 def buy(request, symbol=''):
     if request.user.is_authenticated:
@@ -163,7 +169,8 @@ def buy(request, symbol=''):
         return redirect('portfolio')
     return redirect('login')
 
-def favorite(request,symbol=''):
+
+def favorite(request, symbol=''):
     if request.user.is_authenticated:
         stock = Stock.objects.get(pk=symbol)
         stock.current_user = request.user
@@ -174,8 +181,7 @@ def favorite(request,symbol=''):
     return redirect('login')
 
 
-
-def unfavorite(request,symbol=''):
+def unfavorite(request, symbol=''):
     if request.user.is_authenticated:
         user = User.objects.get(pk=request.user.pk)
         stock = Stock.objects.get(pk=symbol)
@@ -220,7 +226,54 @@ def unfavorite(request,symbol=''):
 #     return redirect('login')
 
 
-def single_stock_financials(request, symbol):
-    if request.is_ajax and request.method == "GET":
-        data = stock_api.get_stock_financials_report(symbol)
+def get_notifications(request):
+    if request.is_ajax and request.method == "GET" and request.user.is_authenticated:
+        data = {}
+        time_range = "1d"
+        lst = request.user.port_set.all()
+        lst2 = request.user.fav_set.all()
+        notifications = request.user.notifications_set.all()
+        for n in notifications:
+
+            if (n.was_created_recently()):
+                data[n.stock.symbol] = {
+                    "raise_percent": n.stock_raise, "date": n.date}
+            else:
+                n.delete()
+
+        for stock in chain(lst, lst2):
+            if stock.symbol not in data:
+                stockData = stock_api.get_stock_historic_prices(
+                    stock.symbol, time_range=time_range)
+                notification = get_notifications_data(stockData)
+                if(notification != None):
+                    data[stock.symbol] = notification
+
+                    n = Notification(
+                        stock=stock, stock_raise=notification["raise_percent"])
+                    n.save()
+                    n.notifications.add(request.user)
+                notification = None
+
     return JsonResponse({'data': data})
+
+
+def get_notifications_data(stockData):
+    i = 0
+    firstValue = None
+    lastValue = None
+    lenData = len(stockData)
+    current_date = ""
+    while(firstValue == None or lastValue == None and i < lenData):
+        firstValue = stockData[i]["close"]
+        lastValue = stockData[lenData - i - 1]["close"]
+        current_date = stockData[i]["date"]
+        i = i + 1
+
+    raise_percent = (lastValue / firstValue)*100
+    if(raise_percent > 101 or raise_percent < 99):
+        result = {"raise_percent": raise_percent - 100, "date": current_date}
+    else:
+        result = None
+
+    return result
