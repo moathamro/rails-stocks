@@ -1,28 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<canvas id="doughnutChart"></canvas>
-<script>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<canvas id="doughnutChart"></canvas>-->
+<!--<script>-->
 
-var ctxD = document.getElementById("doughnutChart").getContext('2d');
-var myLineChart = new Chart(ctxD, {
-type: 'doughnut',
-data: {
-labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
-datasets: [{
-data: [300, 50, 100, 40, 120],
-backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-}]
-},
-options: {
-responsive: true
-}
-});
-</script>
-</body>
-</html>
+<!--var ctxD = document.getElementById("doughnutChart").getContext('2d');-->
+<!--var myLineChart = new Chart(ctxD, {-->
+<!--type: 'doughnut',-->
+<!--data: {-->
+<!--labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],-->
+<!--datasets: [{-->
+<!--data: [300, 50, 100, 40, 120],-->
+<!--backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],-->
+<!--hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]-->
+<!--}]-->
+<!--},-->
+<!--options: {-->
+<!--responsive: true-->
+<!--}-->
+<!--});-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+      title:{
+        text: "Top U.S Smartphone Operating Systems By Market Share, Q3 2012"
+      },
+      data: [
+      {
+       type: "doughnut",
+       dataPoints: [
+       {  y: 53.37, indexLabel: "Android" },
+       {  y: 35.0, indexLabel: "Apple iOS" },
+       {  y: 7, indexLabel: "Blackberry" },
+       {  y: 2, indexLabel: "Windows Phone" },
+       {  y: 5, indexLabel: "Others" }
+       ]
+     }
+     ]
+   });
+
+    chart.render();
+  }
+  </script>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></head>
+  <body>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+  </body>
+ </html>
