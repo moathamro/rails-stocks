@@ -3,13 +3,15 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 import datetime
-
+from django.utils import timezone
 
 # Create your models here.
 class Stock(models.Model):
     favorite = models.ManyToManyField(User, related_name='fav_set')
-    portfolio_list = models.ManyToManyField(User, related_name='port_set', through='Portfolio')
-    current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.SET_NULL)
+    portfolio_list = models.ManyToManyField(
+        User, related_name='port_set', through='Portfolio')
+    current_user = models.ForeignKey(
+        User, related_name='owner', null=True, on_delete=models.SET_NULL)
 
     symbol = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=64)
@@ -21,15 +23,9 @@ class Stock(models.Model):
     market_cap = models.FloatField(null=True)
     primary_exchange = models.CharField(null=True, max_length=32)
 
-# class stockManager(models.Manager):
-#
-#     def all_with_related_users(self):
-#         qs = self.get_queryset()
-#         qs = qs.select_related(
-#             'portfolio_list')
-#         qs = qs.prefetch_related(
-#             'writers', 'actors')
-#         return qs
+    def __str__(self):
+        return self.symbol
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -74,8 +70,29 @@ class Portfolio(models.Model):
     shares = models.IntegerField(null=True)
 
     class Meta:
-        unique_together = [['user','stock']]
+        unique_together = [['user', 'stock']]
 
+
+class Notification(models.Model):
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    stock = models.OneToOneField(Stock, on_delete=models.CASCADE)
+    stock_raise = models.FloatField(null=True)
+    date = models.DateTimeField(default=timezone.localtime(timezone.now()))
+    notifications = models.ManyToManyField(User, related_name='notifications_set')
+
+    def was_created_recently(self):
+        current_time = timezone.localtime(timezone.now())
+        # print(self.date)
+        # print(current_time - datetime.timedelta(minutes=5))
+        return self.date >= current_time - datetime.timedelta(minutes=5)
+
+    def __str__(self):
+        str_notification = " ".join((str(self.stock), str(self.stock_raise)))
+        return str_notification
+
+    # symbol = models.CharField(max_length=12, primary_key=True)
+    # stock_drop = models.FloatField(null=True)
 
 def log_user_login(sender, user, **kwargs):
     print("logged in: ", user.email)

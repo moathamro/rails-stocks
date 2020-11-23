@@ -2,107 +2,110 @@
 
 <!doctype html>
 <html>
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>
         {% block title %}
-            {{ page_title|default:"Rails - Untitled Page" }}
+        {{ page_title|default:"Rails - Untitled Page" }}
         {% endblock title %}
     </title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link href="{% static 'css/addons/datatables.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/search.css' %}" rel="stylesheet" type="text/css">
 
 </head>
+
 <body>
-<div class="wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div id="logo" class="navbar-brand"><a href="/"><img src="{% static 'logo.png' %}" alt="Project Rails"/></a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/">Home</a>
-                <a class="nav-item nav-link active" href="{% url 'view_all' %}">View all</a>
-                <a class="nav-item nav-link disabled" href="#">Exchange System</a>
-                <a class="nav-item nav-link disabled" href="#">Contact</a>
+    <div class="wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div id="logo" class="navbar-brand"><a href="/"><img src="{% static 'logo.png' %}"
+                        alt="Project Rails" /></a>
             </div>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item search-button">
-                    <a class="nav-link" onclick="openForm()">
-                        <i class="fa fa-search"></i> Search</a>
-                </li>
-                <div class="form-popup" id="myForm">
-                    <a class="nav-link close-btn" onclick="closeForm()">
-                        <i class="fa fa-close"></i> close </a>
-                    <form method="post" action="{% url 'search' %}" class="form-search-container" id="main-Form">
-                        {% csrf_token %}
-                        <div class="input-group">
-                            <input name="stock_name" required class="form-control" placeholder="Search" type="text">
-                        </div> <!-- form-group// -->
-                        <div class="input-group">
-                            <a class="nav-link" onclick="openCheckbox()">
-                                <i class="fa fa-sort-desc"></i> Filter</a>
-                        </div>
-                        <div class="checkbox-popup" id="myCheckbox">
-                            <div onclick="closeCheckbox()">
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="/">Home</a>
+                    <a class="nav-item nav-link active" href="{% url 'view_all' %}">View all</a>
+                    <a class="nav-item nav-link disabled" href="#">Exchange System</a>
+                    <a class="nav-item nav-link disabled" href="#">Contact</a>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item search-button">
+                        <a class="nav-link" onclick="openForm()">
+                            <i class="fa fa-search"></i> Search</a>
+                    </li>
+                    <div class="form-popup" id="myForm">
+                        <a class="nav-link close-btn" onclick="closeForm()">
+                            <i class="fa fa-close"></i> close </a>
+                        <form method="post" action="{% url 'search' %}" class="form-search-container" id="main-Form">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input name="stock_name" required class="form-control" placeholder="Search" type="text">
+                            </div> <!-- form-group// -->
+                            <div class="input-group">
+                                <a class="nav-link" onclick="openCheckbox()">
+                                    <i class="fa fa-sort-desc"></i> Filter</a>
+                            </div>
+                            <div class="checkbox-popup" id="myCheckbox">
+                                <div onclick="closeCheckbox()">
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="filter-checkbox"
+                                        id="symbol-checkbox" value="symbol" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Symbol
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="filter-checkbox"
+                                        id="name-checkbox" value="name">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Name
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="filter-checkbox"
+                                        id="price-checkbox" value="price">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Price
+                                    </label>
+                                    <label><i class="fa fa-chevron-up"></i></label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="price-icon">
+                                        <span class="slider"></span>
+                                    </label> <i class="fa fa-chevron-down"></i>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="filter-checkbox"
+                                        id="change-checkbox" value="change">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Change
+                                    </label>
+                                    <label><i class="fa fa-plus"></i></label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="change-icon">
+                                        <span class="slider"></span>
+                                    </label> <i class="fa fa-minus"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" onclick="cheackdata()" class="btn btn-primary btn-block"
+                                    value="Submit" class="submit-button"> Search
                                 </button>
                             </div>
-                            <br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="filter-checkbox" id="symbol-checkbox"
-                                       value="symbol" checked>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Symbol
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="filter-checkbox" id="name-checkbox"
-                                       value="name">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Name
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="filter-checkbox" id="price-checkbox"
-                                       value="price">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Price
-                                </label>
-                                <label><i class="fa fa-chevron-up"></i></label>
-                                <label class="switch">
-                                    <input type="checkbox" name="price-icon">
-                                    <span class="slider"></span>
-                                </label> <i class="fa fa-chevron-down"></i>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="filter-checkbox" id="change-checkbox"
-                                       value="change">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Change
-                                </label>
-                                <label><i class="fa fa-plus"></i></label>
-                                <label class="switch">
-                                    <input type="checkbox" name="change-icon">
-                                    <span class="slider"></span>
-                                </label> <i class="fa fa-minus"></i>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" onclick="cheackdata()" class="btn btn-primary btn-block"
-                                    value="Submit" class="submit-button"> Search
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                {% if user.is_authenticated %}
+                        </form>
+                    </div>
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'portfolio'%}">
                             <i class="fa fa-cubes"></i> My Portfolio</a>
@@ -110,15 +113,31 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
+                            aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user"></i> Profile </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-info"
-                             aria-labelledby="navbarDropdownMenuLink-4">
+                            aria-labelledby="navbarDropdownMenuLink-4">
                             <a class="dropdown-item" href="{% url 'profile' %}">My account</a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                         </div>
                     </li>
-                {% else %}
+
+                    <li class="nav-item dropdown">
+                        <a gtm-id="Notifications" onclick="hideN()" class="nav-link dropdown-toggle waves-effect"
+                            alt="Notifications" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="true">
+                            <span id="navbarNotificationCounter" class="badge rounded red z-depth-1" alt="Notifications"
+                                style="display: none;">0</span>
+                            <i class="fa fa-bell" alt="Notifications"></i>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" id="navbarNotificationContent"
+                            aria-labelledby="navbarDropdownMenuLink" style="width: 250px;">
+
+                        </div>
+
+                    </li>
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'register' %}">
                             <i class="fa fa-edit"></i> Register</a>
@@ -127,40 +146,73 @@
                         <a class="nav-link" href="{% url 'login' %}">
                             <i class="fa fa-user"></i> Login</a>
                     </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-</div>
-<div class="wrapper">
-    <section class="container">
-        {% block content %}
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="wrapper">
+        <section class="container">
+            {% block content %}
             <p>Placeholder text</p>
-        {% endblock content %}
-    </section>
-</div>
+            {% endblock content %}
+        </section>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="{% static 'js/addons/datatables.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/modules/chart.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
-  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/addons/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/modules/chart.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.clickable-row').click(function () {
+                window.location = $(this).data('href');
+            });
+            getNotifications();
 
-<script>
-    $(document).ready(function () {
-        $('.clickable-row').click(function () {
-            window.location = $(this).data('href');
         });
-    });
-</script>
-{% block scripts %}
-{% endblock scripts %}
+        
+        function getNotifications() {
+            $.ajax({
+                type: 'GET',
+                url: "/notifications/",
+                success: function (result) {
+                    data = result.data;
+                    dataLength = Object.keys(data).length;
+                    for (var symbol in data) {
+
+                        if (data[symbol].raise_percent > 0) {
+                            htmlP = `<p class="mb-0">${symbol} Price has raised by: ${data[symbol].raise_percent.toFixed(2)}%</p>`
+                        } else {
+                            htmlP = `<p class="mb-0">${symbol} Price has droped by: ${data[symbol].raise_percent.toFixed(2)}%</p>`
+                        }
+                        $("#navbarNotificationContent").append(`<a gtm-id="Notifications" class="dropdown-item text-wrap" data-notification-date="${data[symbol].date}" href="stock/${symbol}/1m/">
+                                                            <p class="small text-muted text-uppercase mb-2">${data[symbol].date}</p>
+                                                            ${htmlP}
+                                                            </a> `)
+                    }
+                    if (dataLength > 0) {
+                        $("#navbarNotificationCounter").text(dataLength);
+                        $("#navbarNotificationCounter").show();
+                    }
+
+                }
+            });
+        }
+        function hideN() {
+            $("#navbarNotificationCounter").hide();
+        }
+    </script>
+    {% block scripts %}
+    {% endblock scripts %}
 </body>
+
 </html>

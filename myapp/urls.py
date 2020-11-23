@@ -30,6 +30,8 @@ urlpatterns = [
     path('chr/', views.chart, name='chart'),
     path('search/', views.search, name='search'),
     path('viewall', views.view_all, name='view_all'),
+
+    path('notifications/', views.get_notifications, name='get_notifications'),
 ]
 
 

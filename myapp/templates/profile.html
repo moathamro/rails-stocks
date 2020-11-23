@@ -2,48 +2,48 @@
 {% load static %}
 {% block content%}
 
-	<div class="container">
-		<div class="row">
-			<div class=" col-4 text-left ">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-4" style="display:inline-block">
-                            <img src="{{user.profile.image.url}}" width="108" height="113" alt="profile picture" style="display:inline-block">
+<div class="container">
+    <div class="row">
+        <div class=" col-4 text-left ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-4" style="display:inline-block">
+                        <img src="{{user.profile.image.url}}" width="108" height="113" alt="profile picture"
+                            style="display:inline-block">
 
-                        </div>
-                        <div class="col-4" style="display:inline-block">
-                            <h1 style="display:inline-block">{{user.first_name}}</h1>
-                            {% if user.profile.website %}
-                                <a href="{{user.profile.website}}">my website</a>
-                            {% endif %}
-                        </div>
+                    </div>
+                    <div class="col-4" style="display:inline-block">
+                        <h1 style="display:inline-block">{{user.first_name}}</h1>
+                        {% if user.profile.website %}
+                        <a href="{{user.profile.website}}">my website</a>
+                        {% endif %}
                     </div>
                 </div>
+            </div>
 
-                <div class="list-group list-group-flush ">
-                    <a href="#about" class=" data-hs-anchor list-group-item list-group-item-action">About me</a>
-                    <a href="#fav" class="data-hs-anchor list-group-item list-group-item-action">Favorite stocks</a>
-                    <a href="#act" class="list-group-item list-group-item-action ">review activities</a>
-                </div>
+            <div class="list-group list-group-flush ">
+                <a href="#about" class=" data-hs-anchor list-group-item list-group-item-action">About me</a>
+                <a href="#fav" class="data-hs-anchor list-group-item list-group-item-action">Favorite stocks</a>
+                <a href="#act" class="list-group-item list-group-item-action ">review activities</a>
+            </div>
 
-			</div>
-			<div class="col-8 text-left">
-                <a id="about"></a>
-                <h1 >About me</h1>
-                <h5>Fullname</h5>
-                <input class="form-control" type="text" placeholder="{{user.first_name}} {{user.last_name}}" readonly>
-<!--                <a id="first"></a>-->
-                <h5>Email</h5>
-                <input class="form-control" type="text" placeholder="{{user.email}}" readonly>
-                <h5>BirthDay</h5>
-                <input class="form-control" type="text" placeholder="{{user.profile.birth}}" readonly>
-                <h5>Job</h5>
-                <input class="form-control" type="text" placeholder="{{user.profile.job}}" readonly>
-                <h5>Bio</h5>
-                <input class="form-control" type="text" placeholder="{{user.profile.bio}}" readonly>
-               <br> <div class="text-right" ><a href="/edit">edit personal info</a></div>
-
-
+        </div>
+        <div class="col-8 text-left">
+            <a id="about"></a>
+            <h1>About me</h1>
+            <h5>Fullname</h5>
+            <input class="form-control" type="text" placeholder="{{user.first_name}} {{user.last_name}}" readonly>
+            <!--                <a id="first"></a>-->
+            <h5>Email</h5>
+            <input class="form-control" type="text" placeholder="{{user.email}}" readonly>
+            <h5>BirthDay</h5>
+            <input class="form-control" type="text" placeholder="{{user.profile.birth}}" readonly>
+            <h5>Job</h5>
+            <input class="form-control" type="text" placeholder="{{user.profile.job}}" readonly>
+            <h5>Bio</h5>
+            <input class="form-control" type="text" placeholder="{{user.profile.bio}}" readonly>
+            <br>
+            <div class="text-right"><a href="/edit">edit personal info</a></div>
 
 
                 <a id="fav"></a><hr>

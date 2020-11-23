@@ -51,3 +51,7 @@ body {
     max-height: 200px;
     overflow-x: hidden;
 }
+.red {
+    background-color: #f44336 !important;
+    color: #fff !important;
+}
