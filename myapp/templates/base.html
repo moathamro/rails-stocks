@@ -190,9 +190,9 @@
                     for (var symbol in data) {
 
                         if (data[symbol].raise_percent > 0) {
-                            htmlP = `<p class="mb-0">${symbol} Price has raised by: ${data[symbol].raise_percent.toFixed(2)}%</p>`
+                            htmlP = `<p class="mb-0 text-success">${symbol} Price has raised by: ${data[symbol].raise_percent.toFixed(2)}%</p>`
                         } else {
-                            htmlP = `<p class="mb-0">${symbol} Price has droped by: ${data[symbol].raise_percent.toFixed(2)}%</p>`
+                            htmlP = `<p class="mb-0 text-danger">${symbol} Price has droped by: ${data[symbol].raise_percent.toFixed(2)}%</p>`
                         }
                         $("#navbarNotificationContent").append(`<a gtm-id="Notifications" class="dropdown-item text-wrap" data-notification-date="${data[symbol].date}" href="stock/${symbol}/1m/">
                                                             <p class="small text-muted text-uppercase mb-2">${data[symbol].date}</p>
