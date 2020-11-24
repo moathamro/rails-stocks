@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class=" col-4 text-left">
+            <img src="{% static 'img/stock-market.jpg' %}" width="310" height="290" alt="stocks picture"
+                style="display:inline-block"><br><br>
+            <div class="list-group list-group-flush sticky-top">
+                <a href="#stock" class=" data-hs-anchor list-group-item list-group-item-action">Stock</a>
+                <a href="#share" class="data-hs-anchor list-group-item list-group-item-action">Share</a>
+                <a href="#reven" class="list-group-item list-group-item-action ">Gain/Loss</a>
+                <a href="#port" class="list-group-item list-group-item-action ">Portfolio</a>
+                <a href="#term" class="data-hs-anchor list-group-item list-group-item-action">Stocks Terms</a>
+            </div>
+        </div>
+        <div class="col-8 text-left">
+            <a id="stock"></a>
+            <h1>Stock</h1>
+            <p>A stock is a general term used to describe the <strong>ownership certificates</strong> of any
+                company.<br>
+                Stocks are of two types: <strong style="">common and preferred </strong>. The difference
+                is while the holder of<br> the former has voting rights that can be exercised in corporate
+                decisions,<br>
+                the later doesn't. However, preferred shareholders are legally entitled to receive a certain level <br>
+                of dividend payments before any dividends can be issued to other shareholders.<br><br>
+                There is also something called<strong> 'convertible preferred stock'.</strong> This is basically a
+                preferred stock <br>
+                with an option of converting into a fixed number of common shares, usually any time after a
+                predetermined date.
+
+            </p>
+            <h6>how do stocks work? watch this video</h6>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/4e_o4Xar5t0" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <a id="share"></a>
+            <hr>
+            <h1>Share</h1>
+            <p>Shares are units of equity ownership interest in a corporation stocks that exist as a financial asset<br>
+                providing
+                for an equal distribution in any residual profits, if any are declared, in the form of dividends.
+                Shareholders may
+                also enjoy capital gains if the value of the company rises.
+            </p>
+            <h5>Example</h5>
+            <p>
+                if one stock price is 4 dollors, and someone bought 5 shares of this stock, then they<br> would have to
+                pay:
+                (4*5) dollors. more about the importancy of amount of the<br> shares will be explained later in the <a
+                    href="#reven">Gain/Loss</a> section
+            </p>
+            <a id="reven"></a>
+            <hr>
+            <h1>Gain/Loss</h1>
+            <p>
+                Gain/Loss is the term that's used to describe the how much money someone would make or lose, out of
+                investing in a stock<br>
+                In calculating the percentage gain or loss on an investment, you need to follow the below steps:
+            <ul>
+                <li>First determine the original cost or purchase price</li>
+                <li>Next, the selling price of the investment is subtracted <br>
+                    from the purchase price to arrive at the gain or loss on the investment.</li>
+                <li>Take the gain or loss from the investment and divide it by the original<br>
+                    amount of the investment or purchase price.</li>
+                <li> Finally, multiply the result by 100 to get the percentage change in the investment.</li>
+            </ul>
+
+            </p>
+            <h6>Formula for Calculating Percentage Gain or Loss:</h6>
+            <p>
+                <span style="color:red"> Investment percentage gain = [(Price sold - purchase price)/purchase price] *
+                    100</span><br><br>
+                for <strong> more info</strong>, read <a target="_blank"
+                    href="https://www.investopedia.com/ask/answers/how-do-you-calculate-percentage-gain-or-loss-investment/">this</a>
+                article
+            </p>
+            <a id="port"></a>
+            <hr>
+            <h1>Portfolio</h1>
+            <p>
+                A portfolio is a collection of financial investments like stocks, bonds, commodities, cash, and cash
+                equivalents, including closed-end funds and exchange-traded funds (ETFs). People generally believe that
+                stocks, bonds, and cash comprise the core of a portfolio. Though this is often the case, it does not
+                need to be the rule. A portfolio may contain a wide range of assets including real estate, art, and
+                private investments.<br>
+                <strong>Stocks Portfolio</strong> states all the owner investments in stocks, and helds a report about
+                each one of them, along with the total revenue/loss the owner has, according to the calculations that
+                were mentions in the <a href="#reven">Gain/loss</a> section.<br>
+                <strong>Recommendation:</strong> watch this video, if you're <strong>REALLY</strong> interested in how
+                to build a stocks portfolio
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/E_DUSAfIJiQ" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe> <br>
+                for further info, read<a target="_blank" , href="https://www.investopedia.com/terms/p/portfolio.asp">
+                    this</a> article
+            </p>
+            <a id="term"></a>
+            <hr>
+            <h1>Stocks Terms</h1>
+            <p>
+            <ul>
+                <li><strong>Symbol: </strong>alphabetic root symbol that represents a publically traded company on a
+                    stock exchange </li>
+                <li><strong>Forex: </strong>"Foreign Exchange", involves trading different currencies</li>
+                <li><strong>Yield: </strong>this refer to the measure of the return on an investment that is received
+                    from the payment of a dividend</li>
+                <li><strong>Volatility</strong> how fast a stock moves up and down</li>
+                <li><strong>Bull Market:</strong>a market condition that means stock prices are expected to rise </li>
+                <li><strong>Bear Market: </strong>a market condition that means stock prices are expected to fall</li>
+                <li><strong><a target="_blank"
+                            href="https://www.visualcapitalist.com/40-stock-market-terms-every-beginner-know/">more</a></strong>
+                </li>
+            </ul>
+            </p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

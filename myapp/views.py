@@ -273,8 +273,8 @@ def unfavorite(request, symbol=''):
 
 
 def get_notifications(request):
+    data = {}
     if request.is_ajax and request.method == "GET" and request.user.is_authenticated:
-        data = {}
         time_range = "1d"
         lst = request.user.port_set.all()
         lst2 = request.user.fav_set.all()
@@ -323,3 +323,6 @@ def get_notifications_data(stockData):
         result = None
 
     return result
+
+def about(request):
+    return render(request, 'about.html')
