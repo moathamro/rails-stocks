@@ -78,7 +78,7 @@ class Notification(models.Model):
     # stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     stock = models.OneToOneField(Stock, on_delete=models.CASCADE)
     stock_raise = models.FloatField(null=True)
-    date = models.DateTimeField(default=timezone.localtime(timezone.now()))
+    date = models.DateTimeField(default=datetime.datetime.now())
     notifications = models.ManyToManyField(User, related_name='notifications_set')
 
     def was_created_recently(self):

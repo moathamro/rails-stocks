@@ -26,7 +26,7 @@ SECRET_KEY = '!sq5o3kstxfaxw&%nq9*t63^q!cr_-4l7#b-nb*5@zv2b$9eut'
 DEBUG = True
 
 ALLOWED_HOSTS = {'*'}
-
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -76,9 +76,13 @@ WSGI_APPLICATION = 'myrails.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': '/mnt/db.sqlite3',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/mnt/db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
