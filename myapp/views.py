@@ -323,3 +323,6 @@ def get_notifications_data(stockData):
         result = None
 
     return result
+
+def about(request):
+    return render(request, 'about.html')
