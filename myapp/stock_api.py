@@ -35,11 +35,10 @@ def _request_data(url, filter='', additional_parameters={}):
 
 
 def _get_top_stocks():
-    return _request_data('/stable/stock/market/list/mostactive',
-                         filter='symbol,companyName,latestVolume,change,changePercent,primaryExchange,marketCap,latestPrice,calculationPrice',
+    data = _request_data('/stable/stock/market/list/mostactive',
+                         filter='symbol,companyName,latestVolume,change,changePercent,primaryExchange,marketCap,latestPrice,calculationPrice,recommendationTrends',
                          additional_parameters={'displayPercent': 'true', 'listLimit': '20'})
-
-
+    return data
 """
 NOTE=============================
 difference between change and change over time
@@ -79,3 +78,18 @@ def _get_all_stocks():
     return _request_data('/stable/stock/market/list/mostactive',
                          filter='symbol,companyName,latestVolume,change,changePercent,primaryExchange,marketCap,latestPrice,calculationPrice',
                          additional_parameters={'displayPercent': 'true', 'listLimit': '300'})
+
+def _get_all_stocks():
+    return _request_data('/stable/stock/market/list/mostactive',
+                         filter='symbol,companyName,latestVolume,change,changePercent,primaryExchange,marketCap,latestPrice,calculationPrice,recommendationTrends',
+                         additional_parameters={'displayPercent': 'true', 'listLimit': '100'})
+
+
+def get_stock_Recommendations(symbol):
+    data = _request_data('/stable/stock/{symbol}/recommendation-trends'.format(symbol=symbol), filter='ratingScaleMark')
+    if data:
+        dict = data[0]
+        num = dict['ratingScaleMark']
+        return num
+    else:
+        return 4

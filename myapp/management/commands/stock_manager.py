@@ -12,6 +12,7 @@ class Command(BaseCommand):
 
 		index = 1
 		for stock in top_stocks:
+			data = stock_api.get_stock_Recommendations(stock['symbol'])
 			stock_model, created = Stock.objects.update_or_create(symbol=stock['symbol'], defaults={
 				'name': stock['companyName'],
 				'top_rank': index,
@@ -20,6 +21,7 @@ class Command(BaseCommand):
 				'change_percent': stock['changePercent'],
 				'market_cap': stock['marketCap'],
 				'primary_exchange': stock['primaryExchange'],
+				'rating_scale': data
 			})
 			stock_model.save()
 			index += 1
