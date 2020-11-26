@@ -45,6 +45,13 @@ function cheackdata(event) {
     }
 }
 
+function deleteinput(){
+        document.getElementById("input-search").style.display = "none";
+}
+
+function getinput(){
+        document.getElementById("input-search").style.display = "block";
+}
 // $( "tr" ).hover(
 //   function() {
 //     $( this ).append( $( "<span> ***</span>" ) );

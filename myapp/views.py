@@ -66,16 +66,14 @@ def logout_view(request):
         logout(request)
     return redirect('index')
 
-
 def search(request):
     if request.method == 'POST':
-        filter_by, search_data = request.POST.get(
-            'filter-checkbox'), request.POST.get('stock_name')
+        filter_by, search_data = request.POST.get('filter-checkbox'), request.POST.get('stock_name')
         print(filter_by, search_data)
         if filter_by == "symbol":
-            data = Stock.objects.filter(symbol__iexact=search_data)
+            data = Stock.objects.filter(symbol__istartswith=search_data)
         elif filter_by == "name":
-            data = Stock.objects.filter(name__iexact=search_data)
+            data = Stock.objects.filter(name__istartswith=search_data)
         elif filter_by == "price":
             if 'price-icon' in request.POST:
                 data = Stock.objects.filter(price__lte=search_data)
@@ -90,12 +88,12 @@ def search(request):
             data = None
         return render(request, 'index.html', {'page_title': 'Main', 'data': data})
 
-
 def view_all(request):
     if request.method == 'GET':
         api_data = stock_api._get_all_stocks()
         index = 1
         for stock in api_data:
+            data = stock_api.get_stock_Recommendations(stock['symbol'])
             stock_model, created = Stock.objects.update_or_create(symbol=stock['symbol'], defaults={
                 'name': stock['companyName'],
                 'top_rank': index,
@@ -104,6 +102,7 @@ def view_all(request):
                 'change_percent': stock['changePercent'],
                 'market_cap': stock['marketCap'],
                 'primary_exchange': stock['primaryExchange'],
+                'rating_scale': data
             })
             stock_model.save()
             index += 1
@@ -294,10 +293,10 @@ def get_notifications(request):
                 notification = get_notifications_data(stockData)
                 if(notification != None):
                     data[stock.symbol] = notification
-
-                    n = Notification(
-                        stock=stock, stock_raise=notification["raise_percent"])
-                    n.save()
+                    n, created = Notification.objects.update_or_create(stock=stock, defaults={"date": timezone.now(), "stock_raise": notification["raise_percent"]})
+                    # n = Notification(
+                    #     stock=stock, stock_raise=notification["raise_percent"])
+                    # n.save()
                     n.notifications.add(request.user)
                 notification = None
 

@@ -36,75 +36,142 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item search-button">
-                        <a class="nav-link" onclick="openForm()">
-                            <i class="fa fa-search"></i> Search</a>
-                    </li>
-                    <div class="form-popup" id="myForm">
-                        <a class="nav-link close-btn" onclick="closeForm()">
-                            <i class="fa fa-close"></i> close </a>
-                        <form method="post" action="{% url 'search' %}" class="form-search-container" id="main-Form">
-                            {% csrf_token %}
-                            <div class="input-group">
-                                <input name="stock_name" required class="form-control" placeholder="Search" type="text">
-                            </div> <!-- form-group// -->
-                            <div class="input-group">
-                                <a class="nav-link" onclick="openCheckbox()">
-                                    <i class="fa fa-sort-desc"></i> Filter</a>
+                    <!--               from here-->
+
+<!--                    <li class="nav-item search-button">-->
+<!--                        <a class="nav-link" onclick="openForm()">-->
+<!--                            <i class="fa fa-search"></i> Search</a>-->
+<!--                    </li>-->
+<!--                    <div class="form-popup" id="myForm">-->
+<!--                        <a class="nav-link close-btn" onclick="closeForm()">-->
+<!--                            <i class="fa fa-close"></i> close </a>-->
+<!--                        <form method="post" action="{% url 'search' %}" class="form-search-container" id="main-Form">-->
+<!--                            {% csrf_token %}-->
+<!--                            <div class="input-group">-->
+<!--                                <input name="stock_name" required class="form-control" placeholder="Search" type="text">-->
+<!--                            </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+<!--                            <div class="input-group">-->
+<!--                                <a class="nav-link" onclick="openCheckbox()">-->
+<!--                                    <i class="fa fa-sort-desc"></i> Filter</a>-->
+<!--                            </div>-->
+<!--                            <div class="checkbox-popup" id="myCheckbox">-->
+<!--                                <div onclick="closeCheckbox()">-->
+<!--                                    <button type="button" class="close" aria-label="Close">-->
+<!--                                        <span aria-hidden="true">&times;</span>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                                <br>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="filter-checkbox"-->
+<!--                                        id="symbol-checkbox" value="symbol" checked>-->
+<!--                                    <label class="form-check-label" for="exampleRadios1">-->
+<!--                                        Symbol-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="filter-checkbox"-->
+<!--                                        id="name-checkbox" value="name">-->
+<!--                                    <label class="form-check-label" for="exampleRadios2">-->
+<!--                                        Name-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="filter-checkbox"-->
+<!--                                        id="price-checkbox" value="price">-->
+<!--                                    <label class="form-check-label" for="exampleRadios2">-->
+<!--                                        Price-->
+<!--                                    </label>-->
+<!--                                    <label><i class="fa fa-chevron-up"></i></label>-->
+<!--                                    <label class="switch">-->
+<!--                                        <input type="checkbox" name="price-icon">-->
+<!--                                        <span class="slider"></span>-->
+<!--                                    </label> <i class="fa fa-chevron-down"></i>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="filter-checkbox"-->
+<!--                                        id="change-checkbox" value="change">-->
+<!--                                    <label class="form-check-label" for="exampleRadios2">-->
+<!--                                        Change-->
+<!--                                    </label>-->
+<!--                                    <label><i class="fa fa-plus"></i></label>-->
+<!--                                    <label class="switch">-->
+<!--                                        <input type="checkbox" name="change-icon">-->
+<!--                                        <span class="slider"></span>-->
+<!--                                    </label> <i class="fa fa-minus"></i>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <button type="submit" onclick="cheackdata()" class="btn btn-primary btn-block"-->
+<!--                                    value="Submit" class="submit-button"> Search-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                    to here-->
+                                    <li class="nav-item search-button">
+                    <a class="nav-link" onclick="openForm()">
+                        <i class="fa fa-search"></i> Search</a>
+                </li>
+                <div class="form-popup" id="myForm">
+                    <a class="nav-link close-btn" onclick="closeForm()">
+                        <i class="fa fa-close"></i> close </a>
+                    <form method="post" action="{% url 'search' %}" class="form-search-container" id="main-Form">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <a class="nav-link" >
+                                <i class="fa fa-sort-desc"></i> Search By</a>
+                        </div>
+                        <div class="checkbox-popup" id="myCheckbox">
+                            <br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" onclick="getinput()" name="filter-checkbox" id="symbol-checkbox"
+                                       value="symbol" checked>
+                                <label class="form-check-label" for="exampleRadios1" style="margin-left: -30%;">
+                                    Symbol
+                                </label>
                             </div>
-                            <div class="checkbox-popup" id="myCheckbox">
-                                <div onclick="closeCheckbox()">
-                                    <button type="button" class="close" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <br>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="filter-checkbox"
-                                        id="symbol-checkbox" value="symbol" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                        Symbol
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="filter-checkbox"
-                                        id="name-checkbox" value="name">
-                                    <label class="form-check-label" for="exampleRadios2">
-                                        Name
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="filter-checkbox"
-                                        id="price-checkbox" value="price">
-                                    <label class="form-check-label" for="exampleRadios2">
-                                        Price
-                                    </label>
-                                    <label><i class="fa fa-chevron-up"></i></label>
-                                    <label class="switch">
-                                        <input type="checkbox" name="price-icon">
-                                        <span class="slider"></span>
-                                    </label> <i class="fa fa-chevron-down"></i>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="filter-checkbox"
-                                        id="change-checkbox" value="change">
-                                    <label class="form-check-label" for="exampleRadios2">
-                                        Change
-                                    </label>
-                                    <label><i class="fa fa-plus"></i></label>
-                                    <label class="switch">
-                                        <input type="checkbox" name="change-icon">
-                                        <span class="slider"></span>
-                                    </label> <i class="fa fa-minus"></i>
-                                </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" onclick="getinput()" name="filter-checkbox" id="name-checkbox"
+                                       value="name">
+                                <label class="form-check-label" for="exampleRadios2" style="margin-left: -30%;">
+                                    Name
+                                </label>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" onclick="cheackdata()" class="btn btn-primary btn-block"
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" onclick="getinput()" name="filter-checkbox" id="price-checkbox"
+                                       value="price">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Price
+                                </label>
+                                <label><i class="fa fa-chevron-up"></i></label>
+                                <label class="switch">
+                                    <input type="checkbox" name="price-icon">
+                                    <span class="slider"></span>
+                                </label> <i class="fa fa-chevron-down"></i>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="filter-checkbox" id="change-checkbox"
+                                       value="change" onclick="deleteinput()">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Change
+                                </label>
+                                <label><i class="fa fa-plus"></i></label>
+                                <label class="switch">
+                                    <input type="checkbox" name="change-icon">
+                                    <span class="slider"></span>
+                                </label> <i class="fa fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input name="stock_name" class="form-control" id="input-search" placeholder="Search" type="text">
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" onclick="cheackdata()" class="btn btn-primary btn-block"
                                     value="Submit" class="submit-button"> Search
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'portfolio'%}">

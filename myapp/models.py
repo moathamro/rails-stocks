@@ -19,6 +19,7 @@ class Stock(models.Model):
     top_rank = models.IntegerField(null=True)
     price = models.FloatField(null=True)
     change = models.FloatField(null=True)
+    rating_scale = models.FloatField(null=True)
     change_percent = models.FloatField(null=True)
     market_cap = models.FloatField(null=True)
     primary_exchange = models.CharField(null=True, max_length=32)
@@ -75,7 +76,7 @@ class Portfolio(models.Model):
 
 class Notification(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    # stockk = models.ForeignKey(Stock, related_name="fk", on_delete=models.CASCADE, default=" ")
     stock = models.OneToOneField(Stock, on_delete=models.CASCADE)
     stock_raise = models.FloatField(null=True)
     date = models.DateTimeField(default=datetime.datetime.now())
